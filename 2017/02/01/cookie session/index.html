@@ -1,0 +1,1084 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、JSP、EL表达式的入门Servlet/JSP    是两种动态的WEB资源的两种技术。
+
+使用Servlet生成HTML的页面  response.getWriter(&amp;quot;&amp;lt;form action=&amp;#39;&amp;#39; method=&amp;#39;post&amp;#39;&amp;gt;&amp;quot;);  response.getWriter(&amp;quot;&amp;lt;input type=&amp;#39;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cookie & session">
+<meta property="og:url" content="https://patrickphang.github.io/2017/02/01/cookie session/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="一、JSP、EL表达式的入门Servlet/JSP    是两种动态的WEB资源的两种技术。
+
+使用Servlet生成HTML的页面  response.getWriter(&amp;quot;&amp;lt;form action=&amp;#39;&amp;#39; method=&amp;#39;post&amp;#39;&amp;gt;&amp;quot;);  response.getWriter(&amp;quot;&amp;lt;input type=&amp;#39;">
+<meta property="og:updated_time" content="2017-03-19T06:40:10.313Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cookie & session">
+<meta name="twitter:description" content="一、JSP、EL表达式的入门Servlet/JSP    是两种动态的WEB资源的两种技术。
+
+使用Servlet生成HTML的页面  response.getWriter(&amp;quot;&amp;lt;form action=&amp;#39;&amp;#39; method=&amp;#39;post&amp;#39;&amp;gt;&amp;quot;);  response.getWriter(&amp;quot;&amp;lt;input type=&amp;#39;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/02/01/cookie session/"/>
+
+
+
+
+
+  <title> cookie & session | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/02/01/cookie session/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                cookie & session
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-01T15:40:13+08:00">
+                2017-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/01/cookie session/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/01/cookie session/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/01/cookie session/" class="leancloud_visitors" data-flag-title="cookie & session">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、JSP、EL表达式的入门"><a href="#一、JSP、EL表达式的入门" class="headerlink" title="一、JSP、EL表达式的入门"></a>一、JSP、EL表达式的入门</h1><p>Servlet/JSP    是两种动态的WEB资源的两种技术。</p>
+<ul>
+<li>使用Servlet生成HTML的页面<br>  <code>response.getWriter(&quot;&lt;form action=&#39;&#39; method=&#39;post&#39;&gt;&quot;);</code><br>  <code>response.getWriter(&quot;&lt;input type=&#39;text&#39; name=&#39;username&#39;&gt;&quot;);</code></li>
+<li>JSP简介<ul>
+<li>java server pages        java服务器端的网页们，是在服务器端执行。</li>
+<li>JSP不仅可以写HTML+java代码+JSP自己的代码</li>
+<li>JSP的运行原理（<strong>*</strong>）：JSP – 翻译成Servlet – 编译 – 访问</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a> 
+<ul>
+<li><p>JSP的脚本元素（JSP的页面可以编写java代码）</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;%!  %&gt;		：定义类、定义变量、定义方法（不常用）	成员变量。</div><div class="line">&lt;%=  %&gt;		：输出语句（输出到页面，不能有分号）</div><div class="line">&lt;%   %&gt;		：定义变量、语句</div></pre></td></tr></table></figure>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></div><div class="line">    	<span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span> <span class="attr">width</span>=<span class="string">"60%"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span>(<span class="attr">int</span> <span class="attr">i</span>=<span class="string">1;i</span>&lt;=<span class="string">10;i++)&#123;</span> %&gt;</span></div><div class="line">        	<span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        	<span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span>(<span class="attr">int</span> <span class="attr">j</span>=<span class="string">1;j</span>&lt;=<span class="string">10;j++)&#123;</span> %&gt;</span></div><div class="line">        		<span class="tag">&lt;<span class="name">td</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        	<span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></div><div class="line">        	<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">&lt;<span class="regexp">/html&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>EL快速入门</p>
+<ul>
+<li>获取域对象中的内容：<code>request.setAttribute(&quot;xx&quot;,&quot;yy&quot;);</code><br><code>${xx}</code><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">request.setAttribute</span>("<span class="attr">aa</span>", "苍老师"); %&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">%=</span> <span class="attr">request.getAttribute</span>("<span class="attr">aa</span>") %&gt;</span></div><div class="line">    $&#123; aa &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">&lt;<span class="regexp">/html&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、JSP的脚本元素"><a href="#二、JSP的脚本元素" class="headerlink" title="二、JSP的脚本元素"></a>二、JSP的脚本元素</h1><h1 id="三、cookie和session的原理"><a href="#三、cookie和session的原理" class="headerlink" title="三、cookie和session的原理"></a>三、cookie和session的原理</h1><h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><ol>
+<li><p>显示上次的访问时间（案例）</p>
+<ul>
+<li>第一次访问，输出欢迎，在服务器端，记录当前的时间，把当前的时间通过cookie回写到浏览器。</li>
+<li>第二次访问，会带着上次的时间，获取时间，可以把时间显示到页面上，记录当前的时间，再把回写浏览器。<br>输出上次的访问时间。</li>
+</ul>
+</li>
+<li><p>Cookie的API</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">* cookie的构造方式	Cookie(String name, String value)</div><div class="line">* String getName()  获取cookie的名称</div><div class="line">* String getValue() 获取cookie的值</div><div class="line"></div><div class="line">* void setMaxAge(int expiry)  			：设置有效时间</div><div class="line">	* 失效cookie	setMaxAge(0);	前提条件：设置有效路径（和之前设置过相同）</div><div class="line"></div><div class="line">* void setPath(String uri)  			：设置有效路径</div><div class="line">	* 默认的有效路径（）</div><div class="line">		* 配置	/last				默认路径	/day11</div><div class="line">		* 配置	/servlet/last		默认路径	/day11/servlet</div><div class="line"></div><div class="line">* void setDomain(String pattern)  		：设置有效域名</div><div class="line">	* www.sina.com.cn</div><div class="line">	* sports.sina.com.cn</div><div class="line">	* xxx.sina.com.cn</div><div class="line">	* 设置有效域名	setDomain(&quot;.sian.com.cn&quot;);</div><div class="line"></div><div class="line">* 会话级别的cookie：默认保存到浏览器的内存中。</div><div class="line">* 持久的cookie：把cookie保存到磁盘上。通过setMaxAge(int a)进行设置。</div></pre></td></tr></table></figure>
+</li>
+<li><p>显示用户上次访问过的商品信息（需求）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1.获取请求参数</div><div class="line">2.获取cookie数组，通过指定的名称（自己指定）查找cookie</div><div class="line">3.如果cookie==null，第一次访问</div><div class="line">		* 如果是第一次访问，创建cookie，回写浏览器</div><div class="line">4.如果cookie!=null，不是第一次访问</div><div class="line">		* 如果不是第一次访问，说明我的cookie中已经存在id</div><div class="line">			* 判断，当前的id是否已经存在cookie的中value</div><div class="line">			* 如果存在，不用操作</div><div class="line">			* 如果不存在，在后面追加（product=1,2）</div><div class="line">5.重定向到商品页面</div></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LastServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">5604481158386227221L</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line">			<span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line">		<span class="comment">/**</span></div><div class="line">		* 	1.获取所有的cookie，判断是否是第一次访问</div><div class="line">		* 	2.如果是第一次访问</div><div class="line">		* 		* 输出欢迎，记录当前的时间，回写到浏览器</div><div class="line">		* 	3.如果不是第一次访问</div><div class="line">		* 		* 获取时间，输出到浏览器，记录当前的时间，回写到浏览器。		</div><div class="line">		* 	记录当前的时间，回写到浏览器。</div><div class="line">		*/</div><div class="line">		<span class="comment">// 设置字符中文乱码问题</span></div><div class="line">		response.setContentType(<span class="string">"text/html;charset=UTF-8"</span>);</div><div class="line">		<span class="comment">// 获取所有的cookie</span></div><div class="line">		Cookie [] cookies = request.getCookies();</div><div class="line">		<span class="comment">// 通过指定cookie名称来查找cookie		Cookie c = new Cookie("last","当前的时间");</span></div><div class="line">		Cookie cookie = MyCookieUtil.getCookieByName(cookies,<span class="string">"last"</span>);</div><div class="line">		<span class="comment">// 判断，如果cookie==null，说明是第一次访问</span></div><div class="line">		<span class="keyword">if</span>(cookie == <span class="keyword">null</span>)&#123;</div><div class="line">			<span class="comment">// 输出欢迎，记录当前的时间，回写到浏览器</span></div><div class="line">			response.getWriter().write(<span class="string">"&lt;h3&gt;亲，欢迎再来哦！！&lt;/h3&gt;"</span>);</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">// 获取cookie的值，输出浏览器，记录当前的时间，回写到浏览器</span></div><div class="line">			String value = cookie.getValue();</div><div class="line">			<span class="comment">// 输出浏览器</span></div><div class="line">			response.getWriter().write(<span class="string">"&lt;h3&gt;亲，您又来了，上次的时间是"</span>+value+<span class="string">"&lt;/h3&gt;"</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 记录当前的时间</span></div><div class="line">		Date date = <span class="keyword">new</span> Date();</div><div class="line">		SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</div><div class="line">		String sDate = sdf.format(date);</div><div class="line">		<span class="comment">// 回写到浏览器</span></div><div class="line">		<span class="comment">// 使用cookie回写</span></div><div class="line">		Cookie c = <span class="keyword">new</span> Cookie(<span class="string">"last"</span>, sDate);</div><div class="line">		<span class="comment">// 设置有效时间</span></div><div class="line">		c.setMaxAge(<span class="number">60</span>*<span class="number">60</span>);	<span class="comment">// 秒</span></div><div class="line">		<span class="comment">// 设置有效路径</span></div><div class="line">		c.setPath(<span class="string">"/day11"</span>);</div><div class="line">		<span class="comment">// 回写</span></div><div class="line">		response.addCookie(c);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line">			<span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line">		doGet(request, response);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="session（服务器）"><a href="#session（服务器）" class="headerlink" title="session（服务器）"></a>session（服务器）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">* cookie基于客户端，不安全，并且大小和个数的限制。</div><div class="line">* session域对象，范围一次会话范围，存个人相关的数据。</div><div class="line">    * setAttribute(String name, Object value)</div><div class="line">    * Object getAttribute(String name)  </div><div class="line"></div><div class="line">    * String getId()  获取seesion的唯一的ID</div><div class="line">    * void invalidate()  销毁的seesion</div><div class="line"></div><div class="line"></div><div class="line">* 完成简单的购物车</div><div class="line">    * 购物车	Map&lt;String,Integer&gt; cart	购物车，把购物车存入seesion中。</div><div class="line"></div><div class="line">    * 获取数据</div><div class="line">    * 判断是否是第一次访问    session.getAttribute(&quot;cart&quot;);</div><div class="line">      * 如果第一次访问，cart	创建一个购物车，放入商品的名称和数量</div><div class="line"></div><div class="line">      * 如果不是第一次访问，cart!=null</div><div class="line">        判断是否包含该商品？</div><div class="line">           * 如果包含，数量拿出来，++，放回去，存入seesion中</div><div class="line"></div><div class="line">           * 如果不包含，正常放入到购物车中。存入seesion中</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/01/request response/" rel="next" title="request & response">
+                <i class="fa fa-chevron-left"></i> request & response
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/02/JSP beanutils EL/" rel="prev" title="JSP & beanutils & EL">
+                JSP & beanutils & EL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/01/cookie session/"
+     data-title="cookie & session"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/02/01/cookie session/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/01/cookie session/"
+           data-title="cookie & session" data-url="https://patrickphang.github.io/2017/02/01/cookie session/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、JSP、EL表达式的入门"><span class="nav-number">1.</span> <span class="nav-text">一、JSP、EL表达式的入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、JSP的脚本元素"><span class="nav-number">2.</span> <span class="nav-text">二、JSP的脚本元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、cookie和session的原理"><span class="nav-number">3.</span> <span class="nav-text">三、cookie和session的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie"><span class="nav-number">3.0.1.</span> <span class="nav-text">cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session（服务器）"><span class="nav-number">3.0.2.</span> <span class="nav-text">session（服务器）</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

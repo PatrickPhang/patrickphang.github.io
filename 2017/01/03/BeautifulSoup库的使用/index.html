@@ -1,0 +1,1109 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="导入所需包from bs4 import BeautifulSoupsoup = BeautifulSoup(html)
+解析顺序‘lxml’-&amp;gt;’html5lib’-&amp;gt;’html.parser’">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BeautifulSoup库的使用">
+<meta property="og:url" content="https://patrickphang.github.io/2017/01/03/BeautifulSoup库的使用/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="导入所需包from bs4 import BeautifulSoupsoup = BeautifulSoup(html)
+解析顺序‘lxml’-&amp;gt;’html5lib’-&amp;gt;’html.parser’">
+<meta property="og:updated_time" content="2017-01-03T11:33:22.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BeautifulSoup库的使用">
+<meta name="twitter:description" content="导入所需包from bs4 import BeautifulSoupsoup = BeautifulSoup(html)
+解析顺序‘lxml’-&amp;gt;’html5lib’-&amp;gt;’html.parser’">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/01/03/BeautifulSoup库的使用/"/>
+
+
+
+
+
+  <title> BeautifulSoup库的使用 | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/01/03/BeautifulSoup库的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                BeautifulSoup库的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-03T19:19:22+08:00">
+                2017-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/03/BeautifulSoup库的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/03/BeautifulSoup库的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/01/03/BeautifulSoup库的使用/" class="leancloud_visitors" data-flag-title="BeautifulSoup库的使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="导入所需包"><a href="#导入所需包" class="headerlink" title="导入所需包"></a>导入所需包</h2><p><code>from bs4 import BeautifulSoup</code><br><code>soup = BeautifulSoup(html)</code></p>
+<h2 id="解析顺序"><a href="#解析顺序" class="headerlink" title="解析顺序"></a>解析顺序</h2><p>‘lxml’-&gt;’html5lib’-&gt;’html.parser’<br><a id="more"></a> </p>
+<h2 id="对象种类"><a href="#对象种类" class="headerlink" title="对象种类"></a>对象种类</h2><p>有四种类型：Tag，NavigableString，BeautifulSoup，Comment。<br>BeautifulSoup将文档转化为树形结构，每个节点都是上述四种类型的Python对象。</p>
+<h2 id="遍历文档树"><a href="#遍历文档树" class="headerlink" title="遍历文档树"></a>遍历文档树</h2><p>BeautifulSoup对象作为一棵树，有多个节点。对于一个节点，相对于它所在的位置，有子节点、父节点、兄弟节点。</p>
+<h4 id="1-子节点"><a href="#1-子节点" class="headerlink" title="1. 子节点"></a>1. 子节点</h4><pre><code>* 一个Tag可包含多个Tag以及字符串，这些都是这个Tag的子节点。而NavigableString不会有子节点。
+* 如果想要获得某个Tag：`soup.tag_name`  
+* 通过点取属性，只能获得当前名字的第一个tag，若要获取所有，需要使用搜索文档树中的方法:`soup.find_all(&apos;tag_name&apos;)`  
+* tag的.contents属性可将所有子节点以列表的方式输出。可通过tag的.children生成器，对所有子节点遍历。  
+* `.contents`和`.children`只对获取Tag的直接子节点，`.descendants`可对Tag的所有子孙节点遍历。  
+* 如果tag只有一个NavigableString类型子节点，则可用`.string`获取。如果包含多个，使用`.strings`遍历。若输出的字符串中包含空格或空行，使用`.stripped_strings`去除。
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">res = soup.stripped_strings</div><div class="line">print(list(res))</div></pre></td></tr></table></figure>
+</code></pre><h4 id="2-父节点"><a href="#2-父节点" class="headerlink" title="2. 父节点"></a>2. 父节点</h4><p><code>.parent</code> -&gt; 当前节点的父节点<br><code>.parents</code> -&gt; 当前节点的所有父辈节点  </p>
+<h4 id="3-兄弟节点"><a href="#3-兄弟节点" class="headerlink" title="3. 兄弟节点"></a>3. 兄弟节点</h4><p>拥有同一父节点的节点之间：<br><code>.next_sibling</code><br><code>.previous_sibling</code>  </p>
+<pre><code>所有兄弟节点：  
+`.next_siblings`  
+`.previous_siblings`  
+
+指向下一个或上一个解析对象：  
+`.next_element`  
+`.previous_element`  
+`.next_elements`  
+`.previous_elements`  
+</code></pre><hr>
+<hr>
+<hr>
+<h3 id="搜索文档树：find-str-和find-all-str"><a href="#搜索文档树：find-str-和find-all-str" class="headerlink" title="搜索文档树：find(str)和find_all(str)"></a>搜索文档树：find(str)和find_all(str)</h3><blockquote>
+<p>其中的str，代表了tag的name。可以是纯字符串、正则表达式、列表（任一匹配就满足条件，是或运算）、True（返回所有Tag节点不返回字符串节点）。<br>另一种入参不是str，而是method。此方法是一个函数，只接受一个元素入参，若此函数返回True表示入参匹配要求。例如：<br>def has_class_but_no_id(tag):<br>return tag.has_attr(‘class’) and not tag.has_attr(‘id’)<br>综上，过滤器包括：纯字符串、正则表达式、列表、True、方法这几种。</p>
+</blockquote>
+<h4 id="1-find-all-name-attrs-recursive-text-kwargs"><a href="#1-find-all-name-attrs-recursive-text-kwargs" class="headerlink" title="1. find_all(name,attrs,recursive,text,**kwargs)"></a>1. <code>find_all(name,attrs,recursive,text,**kwargs)</code></h4><p>该方法搜索当前节点的所有tag子节点。  </p>
+<ol>
+<li><code>name</code>参数：<br>指的是tag的name属性，字符串对象自动忽略。<br>过滤器可以使用全部种类。  </li>
+<li><code>keyword</code>参数：<br>如果一个入参指定了名字，但是并不是上述提到的入参名字，搜索时会把该入参当做是tag的属性来搜索。<br>例如：<code>soup.find_all(id=&#39;link2&#39;)</code>会返回tag中存在属性id，并且id对应的值是link2的tag。<br>以上方法可使用除方法之外的所有过滤器。<br>某些特殊属性不能这样直接使用，则使用如下方法：<br><code>soup.find_all(attrs={&quot;key&quot;:&quot;value&quot;})</code><br>例如要使用class属性进行搜索，由于class是python中的保留字，不能直接写成入参，目前有两种方法：<br>soup.find<em>all(‘tag.name’,class</em>=’class_value’)<br>soup.find_all(‘tag.name’,attrs={‘class’:’class<em>value’})<br>class</em>方法可以使用全部过滤器。<br>另外，因为class是一个多值属性，所以只需要匹配一个值，就可以得到结果，所谓的不完全匹配。<br>使用完全匹配时，过滤器中的字符顺序需要和实际相符合才能得到对应结果。  </li>
+<li><code>text</code>参数：<br>搜索的是Tag中的字符串内容，可使用全部过滤器。</li>
+<li><code>limit</code>参数：<br>限制返回数量。  </li>
+<li><code>recursive</code>参数：<br>find_all()默认是搜索当前节点的所有子孙节点，若只需要搜索直接的子节点，则设置recursive=False。  </li>
+</ol>
+<p>find_all()是实际当中用的最广泛的。因此有了等价的简化版：<br><code>soup.find_all(&#39;a&#39;)</code>或<code>soup(&#39;a&#39;)</code></p>
+<h4 id="2-find-name-attrs-recursive-text-kwargs"><a href="#2-find-name-attrs-recursive-text-kwargs" class="headerlink" title="2. find(name,attrs,recursive,text,**kwargs)"></a>2. <code>find(name,attrs,recursive,text,**kwargs)</code></h4><p>find()方法等价于find_all(limit=1)，返回符合条件的第一个对象。<br>区别在于，前者直接返回结果，后者返回只有一个元素的列表。若没有对象符合条件，前者返回None，后者返回空列表。<br>简化版：<code>soup.find(&#39;head&#39;).find(&#39;title&#39;)</code>或<code>soup.head.title</code></p>
+<pre><code>除了find()和find_all()之外还有一些搜索的方法：
+find_parent()
+find_next_sibling()
+find_previous_sibling()
+上面三种可以在后面加&apos;s&apos;表示所有。
+find_next()
+find_previous()
+find_all_next()
+find_all_previous()
+</code></pre><h4 id="3-CSS选择器-select-方法"><a href="#3-CSS选择器-select-方法" class="headerlink" title="3. CSS选择器(.select()方法)"></a>3. CSS选择器(.select()方法)</h4><p>Tag或BeautifulSoup对象的.select()方法。<br><code>res = soup.select(&#39;#wrapperto&#39;)</code> -&gt; tag’s id<br><code>res = soup.select(&#39;img[src]&#39;)</code> -&gt; ‘img’ tags有’src’ attributes<br><code>res = soup.select(&#39;img[src=...]&#39;)</code> -&gt; ‘src’ attributes是…  </p>
+<hr>
+<hr>
+<hr>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><ul>
+<li><code>soup.prettify()</code>将文档树格式化之后输出。    </li>
+<li>若不注重格式，则可使用python的<code>str()</code>或<code>unicode()</code>。    </li>
+<li>如果想得到tag中包含的文本内容，使用<code>get_text()</code>，可获取到当前节点的文本，以及子孙节点中的文本。返回的是Unicode。  </li>
+<li>可以指定参数设置分隔符如<code>get_text(&quot;|&quot;)</code>是以“|”作为分隔符。  </li>
+<li><code>get_text(strip=True)</code>可去除文本前后的空白。  </li>
+<li>或者用<code>.stripped_strings</code>进行遍历。获得父级标签下的所有子标签内的文本信息，相当于处理多个文本的高级的get_text()方法  </li>
+</ul>
+<hr>
+<hr>
+<hr>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>1.soup使用Unicode编码。<br>2.BeautifulSoup对象的.original_encoding属性来获取自动识别编码的结果。<br>3.在创建BeautifulSoup对象时，指定入参<code>from_encoding</code>来告知文档的编码方式。<br>4.有时转码时有些特殊字符替换成了特殊的Unicode，可通过BeautifulSoup对象的<code>.contains_repalcement_characters</code>属性来判断是否有此情况，为True即为有特殊替换。<br>5.输出编码统一为UTF8，若想要其他的编码，则和一般的python字符串相同，需要进行手动设置。</p>
+<hr>
+<hr>
+<hr>
+<p>完整实例代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests,urllib.request</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"></div><div class="line">source_code = requests.get(url,headers=header)</div><div class="line">wb_data = source_code.text</div><div class="line"></div><div class="line">soup = BeautifulSoup(wb_data,<span class="string">'lxml'</span>)</div><div class="line">titles = soup.select(<span class="string">'body &gt; div.main-content &gt; ul &gt; li &gt; div.article-info &gt; h3 &gt; a'</span>)</div><div class="line">images = soup.select(<span class="string">'body &gt; div.main-content &gt; ul &gt; li &gt; img'</span>)</div><div class="line"></div><div class="line"><span class="comment">#获取网页信息</span></div><div class="line"><span class="keyword">for</span> title,image <span class="keyword">in</span> zip(titles,images):</div><div class="line">    data = &#123;</div><div class="line">        <span class="string">'title'</span>:title.get_text(),</div><div class="line">        <span class="string">'image'</span>:image.get(<span class="string">'src'</span>)</div><div class="line">    &#125;</div><div class="line">print(data)</div><div class="line"></div><div class="line"><span class="comment">#下载</span></div><div class="line">download_links = []</div><div class="line">folder_path = <span class="string">"C:/Users/asus-pc/Desktop"</span></div><div class="line"><span class="keyword">for</span> pic_tag <span class="keyword">in</span> soup.find_all(<span class="string">'img'</span>):</div><div class="line">    pic_link = pic_tag.get(<span class="string">'src'</span>)</div><div class="line">    download_links.append(pic_link)</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> download_links:</div><div class="line">    urllib.request.urlretrieve(item,folder_path+item[<span class="number">-5</span>:])</div><div class="line">    print(<span class="string">"done!"</span>)</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/03/requests库的使用/" rel="next" title="requests库的使用">
+                <i class="fa fa-chevron-left"></i> requests库的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/03/pyquery库的使用/" rel="prev" title="pyquery库的使用">
+                pyquery库的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/01/03/BeautifulSoup库的使用/"
+     data-title="BeautifulSoup库的使用"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/01/03/BeautifulSoup库的使用/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/03/BeautifulSoup库的使用/"
+           data-title="BeautifulSoup库的使用" data-url="https://patrickphang.github.io/2017/01/03/BeautifulSoup库的使用/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入所需包"><span class="nav-number">1.</span> <span class="nav-text">导入所需包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析顺序"><span class="nav-number">2.</span> <span class="nav-text">解析顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象种类"><span class="nav-number">3.</span> <span class="nav-text">对象种类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历文档树"><span class="nav-number">4.</span> <span class="nav-text">遍历文档树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-子节点"><span class="nav-number">4.0.1.</span> <span class="nav-text">1. 子节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-父节点"><span class="nav-number">4.0.2.</span> <span class="nav-text">2. 父节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-兄弟节点"><span class="nav-number">4.0.3.</span> <span class="nav-text">3. 兄弟节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索文档树：find-str-和find-all-str"><span class="nav-number">4.1.</span> <span class="nav-text">搜索文档树：find(str)和find_all(str)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-find-all-name-attrs-recursive-text-kwargs"><span class="nav-number">4.1.1.</span> <span class="nav-text">1. find_all(name,attrs,recursive,text,**kwargs)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-find-name-attrs-recursive-text-kwargs"><span class="nav-number">4.1.2.</span> <span class="nav-text">2. find(name,attrs,recursive,text,**kwargs)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-CSS选择器-select-方法"><span class="nav-number">4.1.3.</span> <span class="nav-text">3. CSS选择器(.select()方法)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出"><span class="nav-number">5.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码"><span class="nav-number">6.</span> <span class="nav-text">编码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

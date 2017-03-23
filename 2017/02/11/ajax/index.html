@@ -1,0 +1,1102 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="AJAX应用的五个步骤
+建立XMLHttpRequest对象
+设置回调函数
+使用open方法与服务器建立连接
+向服务器端发送数据
+在回调函数针对不同响应状态进行处理
+
+小练习
+去参数
+检查参数是否有问题
+校验操作
+这一步需要将用户感兴趣的数据返回给页面端，而不是将一个新的页面发送给用户
+
+文本格式AJAXServer.java123456789101112131415161718192021222">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ajax">
+<meta property="og:url" content="https://patrickphang.github.io/2017/02/11/ajax/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="AJAX应用的五个步骤
+建立XMLHttpRequest对象
+设置回调函数
+使用open方法与服务器建立连接
+向服务器端发送数据
+在回调函数针对不同响应状态进行处理
+
+小练习
+去参数
+检查参数是否有问题
+校验操作
+这一步需要将用户感兴趣的数据返回给页面端，而不是将一个新的页面发送给用户
+
+文本格式AJAXServer.java123456789101112131415161718192021222">
+<meta property="og:updated_time" content="2017-03-19T07:54:25.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ajax">
+<meta name="twitter:description" content="AJAX应用的五个步骤
+建立XMLHttpRequest对象
+设置回调函数
+使用open方法与服务器建立连接
+向服务器端发送数据
+在回调函数针对不同响应状态进行处理
+
+小练习
+去参数
+检查参数是否有问题
+校验操作
+这一步需要将用户感兴趣的数据返回给页面端，而不是将一个新的页面发送给用户
+
+文本格式AJAXServer.java123456789101112131415161718192021222">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/02/11/ajax/"/>
+
+
+
+
+
+  <title> Ajax | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/02/11/ajax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Ajax
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T18:36:58+08:00">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/11/ajax/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/11/ajax/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/11/ajax/" class="leancloud_visitors" data-flag-title="Ajax">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AJAX应用的五个步骤"><a href="#AJAX应用的五个步骤" class="headerlink" title="AJAX应用的五个步骤"></a>AJAX应用的五个步骤</h1><ol>
+<li>建立XMLHttpRequest对象</li>
+<li>设置回调函数</li>
+<li>使用open方法与服务器建立连接</li>
+<li>向服务器端发送数据</li>
+<li>在回调函数针对不同响应状态进行处理</li>
+</ol>
+<h1 id="小练习"><a href="#小练习" class="headerlink" title="小练习"></a>小练习</h1><ol>
+<li>去参数</li>
+<li>检查参数是否有问题</li>
+<li>校验操作</li>
+<li>这一步需要将用户感兴趣的数据返回给页面端，而不是将一个新的页面发送给用户</li>
+</ol>
+<h1 id="文本格式"><a href="#文本格式" class="headerlink" title="文本格式"></a>文本格式</h1><p><code>AJAXServer.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AJAXServer</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        doGet(httpServletRequest, httpServletResponse);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            httpServletResponse.setContentType(<span class="string">"text/html;charset=utf-8"</span>);</div><div class="line">            PrintWriter out = httpServletResponse.getWriter();</div><div class="line"></div><div class="line">            <span class="comment">// 1.取参数</span></div><div class="line">            String old = httpServletRequest.getParameter(<span class="string">"name"</span>);</div><div class="line">            <span class="comment">// 2.检查参数是否有问题</span></div><div class="line">            <span class="keyword">if</span> (old == <span class="keyword">null</span> || old.length() == <span class="number">0</span>) &#123;</div><div class="line">                out.println(<span class="string">"用户名不能为空"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// 3.校验操作</span></div><div class="line">                String name = old;</div><div class="line">                <span class="keyword">if</span> (name.equals(<span class="string">"wangxingkui"</span>)) &#123;</div><div class="line">                    <span class="comment">//4.和传统应用不同之处。这一步需要将用户感兴趣的数据返回给页面段，而不是将一个新的页面发送给用户</span></div><div class="line">                    <span class="comment">//写法没有变化，本质发生了改变</span></div><div class="line">                    out.println(<span class="string">"用户名["</span> + name + <span class="string">"]已经存在，请使用其他用户名, "</span> + temp);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    out.println(<span class="string">"用户名["</span> + name + <span class="string">"]尚未存在，可以使用该用户名注册, "</span> + temp);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>verify.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义用户名校验的方法</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 1.获取文本框中的内容</span></div><div class="line">    <span class="keyword">var</span> jqueryObj = $(<span class="string">"#userName"</span>);</div><div class="line">    <span class="comment">//获取节点的值</span></div><div class="line">    <span class="keyword">var</span> userName = jqueryObj.val();</div><div class="line"></div><div class="line">    <span class="comment">// 2.将文本框中的数据发送给服务器段的servlet</span></div><div class="line">    <span class="comment">//使用jquery的XMLHTTPrequest对象get请求的封装：get(url,data,callback)</span></div><div class="line">    $.get(<span class="string">"AJAXServer?name="</span> + userName,<span class="literal">null</span>,callback);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//回调函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="comment">// 3.接收服务器端返回的数据</span></div><div class="line">    alert(data);</div><div class="line">    <span class="comment">// 4.将服务器段返回的数据动态的显示在页面上</span></div><div class="line">    <span class="comment">//找到保存结果信息的节点</span></div><div class="line">    <span class="keyword">var</span> resultObj = $(<span class="string">"#result"</span>);</div><div class="line">    <span class="comment">//动态的改变页面中div节点中的内容</span></div><div class="line">    resultObj.html(data);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="jQuery的总结与简化调用"><a href="#jQuery的总结与简化调用" class="headerlink" title="jQuery的总结与简化调用"></a>jQuery的总结与简化调用</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 复杂版本</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//解决中文乱码问题的方法1，页面端发出的数据作一次encodeURI，服务器段使用new String(old.getBytes("iso8859-1"),"UTF-8");</span></div><div class="line">    <span class="comment">//解决中文乱码问题的方法2，页面端发出的数据作两次encodeURI，服务器段使用URLDecoder.decode(old,"UTF-8")</span></div><div class="line">    <span class="keyword">var</span> url = <span class="string">"AJAXServer?name="</span> + <span class="built_in">encodeURI</span>(<span class="built_in">encodeURI</span>($(<span class="string">"#userName"</span>).val()));</div><div class="line">    url = convertURL(url);</div><div class="line"></div><div class="line">    $.get(url,<span class="literal">null</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        $(<span class="string">"#result"</span>).html(data);</div><div class="line">&#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 简化版本</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $.get(<span class="string">"AJAXServer?name="</span> + $(<span class="string">"#userName"</span>).val(),<span class="literal">null</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        $(<span class="string">"#result"</span>).html(data);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="XHR对象的创建"><a href="#XHR对象的创建" class="headerlink" title="XHR对象的创建"></a>XHR对象的创建</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xmlhttp;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// 0.使用dom的方式获取文本框中的值</span></div><div class="line">    <span class="keyword">var</span> userName = <span class="built_in">document</span>.getElementById(<span class="string">"userName"</span>).value;</div><div class="line"></div><div class="line">    <span class="comment">// 1.创建XMLHttpRequest对象</span></div><div class="line">    <span class="comment">//这是XMLHttpReuquest对象无部使用中最复杂的一步，需要针对IE和其他类型的浏览器建立这个对象的不同方式写不同的代码</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest) &#123;</div><div class="line">        <span class="comment">//针对FireFox，Mozillar，Opera，Safari，IE7，IE8</span></div><div class="line">        xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">        <span class="comment">//针对某些特定版本的mozillar浏览器的BUG进行修正</span></div><div class="line">        <span class="keyword">if</span> (xmlhttp.overrideMimeType) &#123;</div><div class="line">            xmlhttp.overrideMimeType(<span class="string">"text/xml"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.ActiveXObject) &#123;</div><div class="line">        <span class="comment">//针对IE6，IE5.5，IE5</span></div><div class="line">        <span class="comment">//两个可以用于创建XMLHTTPRequest对象的控件名称，保存在一个js的数组中</span></div><div class="line">        <span class="comment">//排在前面的版本较新</span></div><div class="line">        <span class="keyword">var</span> activexName = [<span class="string">"MSXML2.XMLHTTP"</span>,<span class="string">"Microsoft.XMLHTTP"</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; activexName.length; i++) &#123;</div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                <span class="comment">//取出一个控件名进行创建，如果创建成功就终止循环</span></div><div class="line">                <span class="comment">//如果创建失败，回抛出异常，然后可以继续循环，继续尝试创建</span></div><div class="line">                xmlhttp = <span class="keyword">new</span> ActiveXObject(activexName[i]);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125; <span class="keyword">catch</span>(e)&#123;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//确认XMLHTtpRequest对象创建成功</span></div><div class="line">    <span class="keyword">if</span> (!xmlhttp) &#123;</div><div class="line">        alert(<span class="string">"XMLHttpRequest对象创建失败!!"</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        alert(xmlhttp.readyState);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="使用XHR对象发送和接受数据"><a href="#使用XHR对象发送和接受数据" class="headerlink" title="使用XHR对象发送和接受数据"></a>使用XHR对象发送和接受数据</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//--------------------------------------------------------------------------------------------第一步的代码</span></div><div class="line"><span class="keyword">var</span> xmlhttp;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// 0.使用dom的方式获取文本框中的值</span></div><div class="line">    <span class="keyword">var</span> userName = <span class="built_in">document</span>.getElementById(<span class="string">"userName"</span>).value;</div><div class="line"></div><div class="line">    <span class="comment">// 1.创建XMLHttpRequest对象</span></div><div class="line">    <span class="comment">//这是XMLHttpReuquest对象无部使用中最复杂的一步，需要针对IE和其他类型的浏览器建立这个对象的不同方式写不同的代码</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest) &#123;</div><div class="line">        <span class="comment">//针对FireFox，Mozillar，Opera，Safari，IE7，IE8</span></div><div class="line">        xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">        <span class="comment">//针对某些特定版本的mozillar浏览器的BUG进行修正</span></div><div class="line">        <span class="keyword">if</span> (xmlhttp.overrideMimeType) &#123;</div><div class="line">            xmlhttp.overrideMimeType(<span class="string">"text/xml"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.ActiveXObject) &#123;</div><div class="line">        <span class="comment">//针对IE6，IE5.5，IE5</span></div><div class="line">        <span class="comment">//两个可以用于创建XMLHTTPRequest对象的控件名称，保存在一个js的数组中</span></div><div class="line">        <span class="comment">//排在前面的版本较新</span></div><div class="line">        <span class="keyword">var</span> activexName = [<span class="string">"MSXML2.XMLHTTP"</span>,<span class="string">"Microsoft.XMLHTTP"</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; activexName.length; i++) &#123;</div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                <span class="comment">//取出一个控件名进行创建，如果创建成功就终止循环</span></div><div class="line">                <span class="comment">//如果创建失败，回抛出异常，然后可以继续循环，继续尝试创建</span></div><div class="line">                xmlhttp = <span class="keyword">new</span> ActiveXObject(activexName[i]);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125; <span class="keyword">catch</span>(e)&#123;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//确认XMLHTtpRequest对象创建成功</span></div><div class="line">    <span class="keyword">if</span> (!xmlhttp) &#123;</div><div class="line">        alert(<span class="string">"XMLHttpRequest对象创建失败!!"</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        alert(xmlhttp.readyState);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//--------------------------------------------------------------------------------------------第一步的代码</span></div><div class="line"></div><div class="line">    <span class="comment">// 2.注册回调函数</span></div><div class="line">    <span class="comment">//注册回调函数时，之需要函数名，不要加括号</span></div><div class="line">    <span class="comment">//我们需要将函数名注册，如果加上括号，就会把函数的返回值注册上，这是错误的</span></div><div class="line">    xmlhttp.onreadystatechange = callback;</div><div class="line"></div><div class="line">    <span class="comment">// 3.设置连接信息</span></div><div class="line">    <span class="comment">//第一个参数表示http的请求方式，支持所有http的请求方式，主要使用get和post</span></div><div class="line">    <span class="comment">//第二个参数表示请求的url地址，get方式请求的参数也在url中</span></div><div class="line">    <span class="comment">//第三个参数表示采用异步还是同步方式交互，true表示异步</span></div><div class="line">    xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"AJAXServer?name="</span>+ userName,<span class="literal">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">//POST方式请求的代码</span></div><div class="line">    <span class="comment">//xmlhttp.open("POST","AJAXServer",true);</span></div><div class="line">    <span class="comment">//POST方式需要自己设置http的请求头</span></div><div class="line">    <span class="comment">//xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");</span></div><div class="line">    <span class="comment">//POST方式发送数据</span></div><div class="line">    <span class="comment">//xmlhttp.send("name=" + userName);</span></div><div class="line"></div><div class="line">    <span class="comment">// 4.发送数据，开始和服务器端进行交互</span></div><div class="line">    <span class="comment">//同步方式下，send这句话会在服务器段数据回来后才执行完</span></div><div class="line">    <span class="comment">//异步方式下，send这句话会立即完成执行</span></div><div class="line">    xmlhttp.send(<span class="literal">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//回调函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// 5.接收响应数据</span></div><div class="line">    <span class="comment">//判断对象的状态是交互完成</span></div><div class="line">    <span class="keyword">if</span> (xmlhttp.readyState == <span class="number">4</span>) &#123;</div><div class="line">        <span class="comment">//判断http的交互是否成功</span></div><div class="line">        <span class="keyword">if</span> (xmlhttp.status == <span class="number">200</span>) &#123;</div><div class="line">            <span class="comment">//获取服务器端返回的数据</span></div><div class="line">            <span class="comment">//获取服务器端输出的纯文本数据</span></div><div class="line">            <span class="keyword">var</span> responseText = xmlhttp.responseText;</div><div class="line">            <span class="comment">//将数据显示在页面上</span></div><div class="line">            <span class="comment">//通过dom的方式找到div标签所对应的元素节点</span></div><div class="line">            <span class="keyword">var</span> divNode = <span class="built_in">document</span>.getElementById(<span class="string">"result"</span>);</div><div class="line">            <span class="comment">//设置元素节点中的html内容</span></div><div class="line">            divNode.innerHTML = responseText;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            alert(<span class="string">"出错了！！！"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="xml格式（利用XHR接受和处理XML数据）"><a href="#xml格式（利用XHR接受和处理XML数据）" class="headerlink" title="xml格式（利用XHR接受和处理XML数据）"></a>xml格式（利用XHR接受和处理XML数据）</h1><p><code>AJAXXMLServer.java</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">AJAXXMLServer</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span></span>&#123;</div><div class="line">    protected <span class="keyword">void</span> doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException &#123;</div><div class="line">        doGet(httpServletRequest, httpServletResponse);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    protected <span class="keyword">void</span> doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException &#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="comment">//修改点1111111111111111111111111111111----响应的Content-Type必须是text/xml</span></div><div class="line">            httpServletResponse.setContentType(<span class="string">"text/xml;charset=utf-8"</span>);</div><div class="line"></div><div class="line">            PrintWriter out = httpServletResponse.getWriter();</div><div class="line">            <span class="comment">//1.取参数</span></div><div class="line">            <span class="built_in">String</span> old = httpServletRequest.getParameter(<span class="string">"name"</span>);</div><div class="line">            <span class="comment">//修改点2222222222222222222222222222222-----返回的数据需要拼装成xml格式</span></div><div class="line">            StringBuilder builder = <span class="keyword">new</span> StringBuilder();</div><div class="line">            builder.append(<span class="string">"&lt;message&gt;"</span>);</div><div class="line">            <span class="comment">//2.检查参数是否有问题</span></div><div class="line">            <span class="keyword">if</span>(old == <span class="literal">null</span> || old.length() == <span class="number">0</span>)&#123;</div><div class="line">                builder.append(<span class="string">"用户名不能为空"</span>).append(<span class="string">"&lt;/message&gt;"</span>);</div><div class="line">            &#125; <span class="keyword">else</span>&#123;</div><div class="line">                <span class="comment">//3.校验操作</span></div><div class="line">                <span class="built_in">String</span> name = old;</div><div class="line"></div><div class="line">                <span class="keyword">if</span>(name.equals(<span class="string">"wangxingkui"</span>))&#123;</div><div class="line">                    <span class="comment">//4。和传统应用不同之处。这一步需要将用户感兴趣的数据返回给页面段，而不是将一个新的页面发送给用户</span></div><div class="line">                    <span class="comment">//写法没有变化，本质发生了改变</span></div><div class="line">                    builder.append(<span class="string">"用户名["</span> + name + <span class="string">"]已经存在，请使用其他用户名"</span>).append(<span class="string">"&lt;/message&gt;"</span>);</div><div class="line">                &#125; <span class="keyword">else</span>&#123;</div><div class="line">                    builder.append(<span class="string">"用户名["</span> + name + <span class="string">"]尚未存在，可以使用该用户名注册"</span>).append(<span class="string">"&lt;/message&gt;"</span>);</div><div class="line">                &#125;</div><div class="line">                out.println(builder.toString());</div><div class="line">                System.out.println(builder.toString());</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>verifyxml.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//alert(xmlhttp.readyState);</span></div><div class="line">    <span class="comment">// -----------------5.接收响应数据-----------------</span></div><div class="line">    <span class="comment">//判断对象的状态是交互完成</span></div><div class="line">    <span class="keyword">if</span> (xmlhttp.readyState == <span class="number">4</span>) &#123;</div><div class="line">        <span class="comment">//判断http的交互是否成功</span></div><div class="line">        <span class="keyword">if</span> (xmlhttp.status == <span class="number">200</span>) &#123;</div><div class="line">            <span class="comment">//使用responseXML的方式来接收XML数据对象的DOM对象</span></div><div class="line">            <span class="keyword">var</span> domObj = xmlhttp.responseXML;</div><div class="line">            <span class="keyword">if</span> (domObj) &#123;</div><div class="line">                <span class="comment">//&lt;message&gt;123123123&lt;/message&gt;</span></div><div class="line">                <span class="comment">//dom中利用getElementsByTagName可以根据标签名来获取元素节点，返回的是一个数组</span></div><div class="line">                <span class="keyword">var</span> messageNodes = domObj.getElementsByTagName(<span class="string">"message"</span>);</div><div class="line">                <span class="keyword">if</span> (messageNodes.length &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">//获取message节点中的文本内容</span></div><div class="line">                    <span class="comment">//message标签中的文本在dom中是message标签所对应的元素节点的字节点，firstChild可以获取到当前节点的第一个子节点</span></div><div class="line">                    <span class="comment">//通过以下方式就可以获取到文本内容所对应的节点</span></div><div class="line">                    <span class="keyword">var</span> textNode = messageNodes[<span class="number">0</span>].firstChild;</div><div class="line">                    <span class="comment">//对于文本节点来说，可以通过nodeValue的方式返回文本节点的文本内容</span></div><div class="line">                    <span class="keyword">var</span> responseMessage = textNode.nodeValue;</div><div class="line"></div><div class="line">                    <span class="comment">//将数据显示在页面上</span></div><div class="line">                    <span class="comment">//通过dom的方式找到div标签所对应的元素节点</span></div><div class="line">                    <span class="keyword">var</span> divNode = <span class="built_in">document</span>.getElementById(<span class="string">"result"</span>);</div><div class="line">                    <span class="comment">//设置元素节点中的html内容</span></div><div class="line">                    divNode.innerHTML = responseMessage;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    alert(<span class="string">"XML数据格式错误，原始文本内容为："</span> + xmlhttp.responseText);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                alert(<span class="string">"XML数据格式错误，原始文本内容为："</span> + xmlhttp.responseText);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            alert(<span class="string">"出错了！！！"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="jQuery处理XML数据"><a href="#jQuery处理XML数据" class="headerlink" title="jQuery处理XML数据"></a>jQuery处理XML数据</h1><p><code>verifyjqueryxml.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 1.获取文本框中的内容</span></div><div class="line">    <span class="comment">// document.getElementById("userName");  dom的方式</span></div><div class="line">    <span class="keyword">var</span> jqueryObj = $(<span class="string">"#userName"</span>);</div><div class="line">    <span class="comment">// 获取节点的值</span></div><div class="line">    <span class="keyword">var</span> userName = jqueryObj.val();</div><div class="line"></div><div class="line">    <span class="comment">// 2.将文本框中的数据发送给服务器段的servlet</span></div><div class="line">    <span class="keyword">var</span> obj = &#123;<span class="attr">name</span>:<span class="string">"123"</span>,<span class="attr">age</span>:<span class="number">20</span>&#125;;</div><div class="line">    <span class="comment">// 使用jquery的XMLHTTPrequest对象get请求的封装</span></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">"POST"</span>,               <span class="comment">//http请求方式</span></div><div class="line">        url: <span class="string">"AJAXXMLServer"</span>,       <span class="comment">//服务器端url地址（必须）</span></div><div class="line">        data: <span class="string">"name="</span> + userName,   <span class="comment">//发送给服务器端的数据</span></div><div class="line">        dataType: <span class="string">"xml"</span>,            <span class="comment">//告诉JQuery返回的数据格式</span></div><div class="line">        success: callback           <span class="comment">//定义交互完成，并且服务器正确返回数据时调用的回调函数</span></div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//回调函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="comment">// 3.接收服务器端返回的数据</span></div><div class="line">    <span class="comment">// 需要将data这个dom对象中的数据解析出来</span></div><div class="line">    <span class="comment">// 首先需要将dom的对象转换成JQuery的对象</span></div><div class="line">    <span class="keyword">var</span> jqueryObj = $(data);</div><div class="line">    <span class="comment">// 获取message节点</span></div><div class="line">    <span class="keyword">var</span> message = jqueryObj.children();</div><div class="line">    <span class="comment">// 获取文本内容</span></div><div class="line">    <span class="keyword">var</span> text = message.text();</div><div class="line">    <span class="comment">// 4.将服务器段返回的数据动态的显示在页面上</span></div><div class="line">    <span class="comment">//找到保存结果信息的节点</span></div><div class="line">    <span class="keyword">var</span> resultObj = $(<span class="string">"#result"</span>);</div><div class="line">    <span class="comment">//动态的改变页面中div节点中的内容</span></div><div class="line">    resultObj.html(text);</div><div class="line">    alert(<span class="string">""</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 由于从文本格式变成xml格式所以就不能就这样写了</span></div><div class="line">    <span class="comment">// var resultObj = $("#result");</span></div><div class="line">    <span class="comment">// resultObj.html(data);</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="解决XHR与图片缓存问题"><a href="#解决XHR与图片缓存问题" class="headerlink" title="解决XHR与图片缓存问题"></a>解决XHR与图片缓存问题</h1><p><code>verify.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 给url地址增加时间戳，骗过浏览器，不读取缓存</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">convertURL</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    <span class="comment">//获取时间戳</span></div><div class="line">    <span class="keyword">var</span> timstamp = (<span class="keyword">new</span> <span class="built_in">Date</span>()).valueOf();</div><div class="line">    <span class="comment">//将时间戳信息拼接到url上</span></div><div class="line">    <span class="keyword">if</span> (url.indexOf(<span class="string">"?"</span>) &gt;= <span class="number">0</span>) &#123;</div><div class="line">        url = url + <span class="string">"&amp;t="</span> + timstamp;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        url = url + <span class="string">"?t="</span> + timstamp;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> url;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="解决Ajax中文乱码与跨域访问"><a href="#解决Ajax中文乱码与跨域访问" class="headerlink" title="解决Ajax中文乱码与跨域访问"></a>解决Ajax中文乱码与跨域访问</h1><p>``<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AJAXServer</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        doGet(httpServletRequest, httpServletResponse);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line"><span class="comment">//            request.setCharacterEncoding("UTF-8");</span></div><div class="line"><span class="comment">//            response.setContentType("text/html;charset=gb18030");</span></div><div class="line"></div><div class="line">            httpServletResponse.setContentType(<span class="string">"text/html;charset=utf-8"</span>);</div><div class="line">            PrintWriter out = httpServletResponse.getWriter();</div><div class="line"></div><div class="line">            Integer inte = (Integer) httpServletRequest.getSession().getAttribute(<span class="string">"total"</span>);</div><div class="line">            <span class="keyword">int</span> temp = <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span> (inte == <span class="keyword">null</span>) &#123;</div><div class="line">                temp = <span class="number">1</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                temp = inte.intValue() + <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            httpServletRequest.getSession().setAttribute(<span class="string">"total"</span>,temp);</div><div class="line"></div><div class="line">            <span class="comment">//1.取参数</span></div><div class="line">            String old = httpServletRequest.getParameter(<span class="string">"name"</span>);</div><div class="line">            <span class="comment">//String name = new String(old.getBytes("iso8859-1"),"UTF-8");</span></div><div class="line">            String name = URLDecoder.decode(old,<span class="string">"UTF-8"</span>);</div><div class="line">            <span class="comment">//2.检查参数是否有问题</span></div><div class="line">            <span class="keyword">if</span>(old == <span class="keyword">null</span> || old.length() == <span class="number">0</span>)&#123;</div><div class="line">                out.println(<span class="string">"用户名不能为空"</span>);</div><div class="line">            &#125; <span class="keyword">else</span>&#123;</div><div class="line"><span class="comment">//                String name = URLDecoder.decode(old,"UTF-8");</span></div><div class="line"><span class="comment">//                byte[] by = old.getBytes("ISO8859-1");</span></div><div class="line"><span class="comment">//                String name = new String(by,"utf-8");</span></div><div class="line"><span class="comment">//                String name = URLDecoder.decode(old,"utf-8");</span></div><div class="line">                <span class="comment">//3.校验操作</span></div><div class="line"><span class="comment">//                String name = old;</span></div><div class="line">                <span class="keyword">if</span>(name.equals(<span class="string">"wangxingkui"</span>))&#123;</div><div class="line">                    <span class="comment">//4。和传统应用不同之处。这一步需要将用户感兴趣的数据返回给页面段，而不是将一个新的页面发送给用户</span></div><div class="line">                    <span class="comment">//写法没有变化，本质发生了改变</span></div><div class="line">                    out.println(<span class="string">"用户名["</span> + name + <span class="string">"]已经存在，请使用其他用户名, "</span> + temp);</div><div class="line">                &#125; <span class="keyword">else</span>&#123;</div><div class="line">                    out.println(<span class="string">"用户名["</span> + name + <span class="string">"]尚未存在，可以使用该用户名注册, "</span> + temp);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>verify.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">verify</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//解决中文乱码问题的方法1：页面端发出的数据作一次encodeURI，服务器端使用new String(old.getBytes("iso8859-1"),"UTF-8");</span></div><div class="line">    <span class="comment">//解决中文乱码问题的方法2：页面端发出的数据作两次encodeURI，服务器端使用URLDecoder.decode(old,"UTF-8")</span></div><div class="line">    <span class="keyword">var</span> url = <span class="string">"AJAXServer?name="</span> + <span class="built_in">encodeURI</span>(<span class="built_in">encodeURI</span>($(<span class="string">"#userName"</span>).val()));</div><div class="line">    url = convertURL(url);</div><div class="line">    $.get(url,<span class="literal">null</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        $(<span class="string">"#result"</span>).html(data);</div><div class="line">&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="jQuery的Json支持"><a href="#jQuery的Json支持" class="headerlink" title="jQuery的Json支持"></a>jQuery的Json支持</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $.get(<span class="string">"GetStockInfo"</span>, <span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">        ......</div><div class="line">    &#125;,<span class="string">"json"</span>)  <span class="comment">// 直接在这里加上json就可以将数据转换成json格式  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/10/mapper层测试/" rel="next" title="mapper层单元测试">
+                <i class="fa fa-chevron-left"></i> mapper层单元测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/11/PageHelper分页/" rel="prev" title="PageHelper分页">
+                PageHelper分页 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/11/ajax/"
+     data-title="Ajax"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/02/11/ajax/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/11/ajax/"
+           data-title="Ajax" data-url="https://patrickphang.github.io/2017/02/11/ajax/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AJAX应用的五个步骤"><span class="nav-number">1.</span> <span class="nav-text">AJAX应用的五个步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小练习"><span class="nav-number">2.</span> <span class="nav-text">小练习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本格式"><span class="nav-number">3.</span> <span class="nav-text">文本格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jQuery的总结与简化调用"><span class="nav-number">4.</span> <span class="nav-text">jQuery的总结与简化调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XHR对象的创建"><span class="nav-number">4.1.</span> <span class="nav-text">XHR对象的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用XHR对象发送和接受数据"><span class="nav-number">4.2.</span> <span class="nav-text">使用XHR对象发送和接受数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xml格式（利用XHR接受和处理XML数据）"><span class="nav-number">5.</span> <span class="nav-text">xml格式（利用XHR接受和处理XML数据）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jQuery处理XML数据"><span class="nav-number">6.</span> <span class="nav-text">jQuery处理XML数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决XHR与图片缓存问题"><span class="nav-number">7.</span> <span class="nav-text">解决XHR与图片缓存问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决Ajax中文乱码与跨域访问"><span class="nav-number">8.</span> <span class="nav-text">解决Ajax中文乱码与跨域访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jQuery的Json支持"><span class="nav-number">9.</span> <span class="nav-text">jQuery的Json支持</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

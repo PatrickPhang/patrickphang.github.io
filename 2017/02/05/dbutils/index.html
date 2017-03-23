@@ -1,0 +1,1094 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="元数据元数据(metaData)：指数据库中 库、表、列的定义信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dbutils">
+<meta property="og:url" content="https://patrickphang.github.io/2017/02/05/dbutils/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="元数据元数据(metaData)：指数据库中 库、表、列的定义信息">
+<meta property="og:updated_time" content="2017-03-19T07:18:17.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dbutils">
+<meta name="twitter:description" content="元数据元数据(metaData)：指数据库中 库、表、列的定义信息">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/02/05/dbutils/"/>
+
+
+
+
+
+  <title> dbutils | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/02/05/dbutils/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                dbutils
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-05T09:47:56+08:00">
+                2017-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/05/dbutils/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/05/dbutils/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/05/dbutils/" class="leancloud_visitors" data-flag-title="dbutils">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h1><p>元数据(metaData)：指数据库中 库、表、列的定义信息</p>
+<a id="more"></a> 
+<ol>
+<li><p>DataBaseMetaData 数据库元数据（了解）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">问题:怎样获取一个DataBaseMetaData?</div><div class="line">    Connection接口中定义了一个方法 getMetaData();</div><div class="line"></div><div class="line">问题:常用API</div><div class="line">    String driverName = dmd.getDriverName(); //获取驱动名称:getDriverName</div><div class="line">    System.out.println(driverName);</div><div class="line"></div><div class="line">    String userName = dmd.getUserName();    //获取用户名:getUserName</div><div class="line">    System.out.println(userName);</div><div class="line"></div><div class="line">    String url = dmd.getURL();              //获取url:getURL</div><div class="line">    System.out.println(url);</div><div class="line"></div><div class="line">    String databaseProductName = dmd.getDatabaseProductName(); //获取数据库名称:getDatabaseProductName</div><div class="line">    System.out.println(databaseProductName);</div><div class="line"></div><div class="line">    String databaseProductVersion = dmd.getDatabaseProductVersion();//获取数据库版本:getDatabaseProductVersion</div><div class="line">    System.out.println(databaseProductVersion);</div><div class="line"></div><div class="line">    ResultSet getPrimaryKeys(String catalog, String schema, String table) throws SQLException //获取表中主键相关描述</div><div class="line">        每个主键列描述都有以下列：</div><div class="line">        TABLE_CAT String   =&gt; 表类别（可为null）</div><div class="line">        TABLE_SCHEM String =&gt; 表模式（可为null）</div><div class="line">        TABLE_NAME String  =&gt; 表名称</div><div class="line">        COLUMN_NAME String =&gt; 列名称</div><div class="line">        KEY_SEQ short      =&gt; 主键中的序列号（值 1 表示主键中的第一列，值 2 表示主键中的第二列）。</div><div class="line">        PK_NAME String     =&gt; 主键的名称（可为 null）</div></pre></td></tr></table></figure>
+</li>
+<li><p>ParameterMetaData 参数元数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">参数元数据主要用于获取:sql语句中占位符的相关信息.</div><div class="line"></div><div class="line">问题:怎样获取ParameterMetaData?</div><div class="line">    在PreparedStatement中有一个方法getParameterMetaData可以获取.</div><div class="line"></div><div class="line">问题:怎样使用?</div><div class="line">    int count = pmd.getParameterCount(); // 获取参数 个数</div><div class="line">    System.out.println(count);</div><div class="line"></div><div class="line">    String type1 = pmd.getParameterTypeName(1);//获取参数的类型</div><div class="line">    System.out.println(type1);</div><div class="line"></div><div class="line">    注意：在获取参数类型时会产生异常</div><div class="line">        java.sql.SQLException: Parameter metadata not available for the given statement</div><div class="line">    解决方案:</div><div class="line">        在url后添加参数</div><div class="line">        jdbc:mysql:///day18?generateSimpleParameterMetadata=true</div><div class="line">    添加这个参数后，我们在获取，它的结果也是varchar,原因:是mysql驱动的支持问题。</div></pre></td></tr></table></figure>
+</li>
+<li><p>ResultSetMetaData 结果集元数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">问题:怎样获取结果集元数据?</div><div class="line">    可以通过ResultSet的getMetaData()方法获取.</div><div class="line"></div><div class="line">问题:怎样使用?</div><div class="line">    System.out.println(rsmd.getColumnCount());      //获取结果集中列数量</div><div class="line">    System.out.println(rsmd.getColumnName(2));      //获取结果集中指定列的名称.</div><div class="line">    System.out.println(rsmd.getColumnTypeName(3));  //获取结果集中指定列的类型。</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="dbutils工具"><a href="#dbutils工具" class="headerlink" title="dbutils工具"></a>dbutils工具</h1><p>它就是一个简单的jdbc封装工具.使用dbutils可以简化操作.要使用dbutils需要导入jar包.</p>
+<p>dbutils核心：</p>
+<ol>
+<li><code>QueryRunner</code>类<br> 它是用于执行sql语句的类。<ol>
+<li><code>query</code> 用于执行select</li>
+<li><code>update</code> 用于执行update delete insert</li>
+<li><code>batch</code> 批处理</li>
+</ol>
+</li>
+<li><code>ResultSetHandler</code>接口<br> 用于定义结果集的封装<br> 它提供九个实现类，可以进行不同的封装。</li>
+<li><code>DbUtils</code>类<br> 它提供关于关闭资源<code>close</code>以及事务<code>rollback</code>,<code>commit</code>操作。</li>
+</ol>
+<p>Dbutlis详解：</p>
+<ol>
+<li><p><code>QueryRunner</code>类</p>
+<ol>
+<li><p>QueryRunner怎样获取</p>
+<ul>
+<li><p><code>new QueryRunner()</code><br>  如果是使用这种构造创建的QueryRunner,它的事务是手动控制。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String sql = <span class="string">"select * from account where id&gt;? and name=?"</span>;</div><div class="line">QueryRunner runner = <span class="keyword">new</span> QueryRunner(); <span class="comment">//事务手动控制</span></div><div class="line"></div><div class="line">Connection con = DataSourceUtils.getConnection();</div><div class="line"><span class="comment">// con.setAutoCommit(false);</span></div><div class="line">List&lt;Account&gt; list = runner.query(con,sql,<span class="keyword">new</span> BeanListHandler&lt;Account&gt;(Account.class),<span class="number">2</span>,<span class="string">"ccc"</span>);</div><div class="line"><span class="comment">// con.rollback();</span></div><div class="line"></div><div class="line">System.out.println(list);</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>new QueryRunner(DataSource ds);</code><br>  如果是使用这种构造，它的事务是自动事务，简单说，一条sql一个事务。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String sql = <span class="string">"select * from account where id=?"</span>;</div><div class="line">QueryRunner runner = <span class="keyword">new</span> QueryRunner(DataSourceUtils.getDataSource());  <span class="comment">//自动事务</span></div><div class="line">List&lt;Account&gt; list = runner.query(sql,<span class="keyword">new</span> BeanListHandler&lt;Account&gt;(Account.class),<span class="number">2</span>);</div><div class="line"></div><div class="line">System.out.println(list);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>QueryRunner中的三个核心方法<br> <code>query</code><br> <code>update</code><br> <code>batch</code><br> 对于上述三个方法，它们提供很多重载。<br> 如果QueryRunner在创建时，没有传递DataSource参数，那么在使用query,update,batch方法时，要传递Connection参数<br> 如果QueryRunner在创建时，传递了Dataource参数，那么在使用query,update,batch方法时，不需要传递Connection参数。</p>
+<p> 总结:<br> 怎样配套使用:  </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">QueryRunner runner=<span class="keyword">new</span> QueryRunner();</div><div class="line">runner.query(Connection,sql,ResultSetHandler,Object... param);</div><div class="line">runner.update(Connection,sql,Object...param);</div><div class="line">runner.batch(Connection con,sql,Object[][] objs);</div><div class="line"></div><div class="line">QueryRunner runner=<span class="keyword">new</span> QueryRunner(DataSource ds);</div><div class="line">runner.query(sql,ResultSetHandler,Object... param);</div><div class="line">runner.update(sql,Object...param);</div><div class="line">runner.batch(sql,Object[][] objs);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p><code>ResultSetHandler</code>接口<br> 用于封装结果集.</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 将结果封装到一个javaBean</span></div><div class="line">String sql = <span class="string">"select * from account where id=?"</span>;</div><div class="line">QueryRunner runner = <span class="keyword">new</span> QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">Account a = runner.query(sql,</div><div class="line">                        <span class="keyword">new</span> ResultSetHandler&lt;Account&gt;() &#123;</div><div class="line">                            <span class="comment">//ResultSetHandler上的泛型就是我们执行query方法后得到的结果.</span></div><div class="line"></div><div class="line">                            <span class="comment">//重写handle方法，在这个方法中确定，怎样将结果集封装。</span></div><div class="line">                            <span class="function"><span class="keyword">public</span> Account <span class="title">handle</span><span class="params">(ResultSet rs)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">                                Account a = <span class="keyword">null</span>;</div><div class="line">                                <span class="keyword">if</span> (rs.next()) &#123;</div><div class="line">                                    a = <span class="keyword">new</span> Account();</div><div class="line">                                    a.setId(rs.getInt(<span class="string">"id"</span>));</div><div class="line">                                    a.setName(rs.getString(<span class="string">"name"</span>));</div><div class="line">                                    a.setMoney(rs.getDouble(<span class="string">"money"</span>));</div><div class="line">                                &#125;</div><div class="line">                                <span class="keyword">return</span> a;</div><div class="line">                            &#125;</div><div class="line">                        &#125;, <span class="number">2</span>);</div><div class="line">System.out.println(a);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="模仿QueryRunner实现"><a href="#模仿QueryRunner实现" class="headerlink" title="模仿QueryRunner实现"></a>模仿QueryRunner实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyQueryRunner</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> DataSource ds;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyQueryRunner</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">super</span>();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyQueryRunner</span><span class="params">(DataSource ds)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.ds = ds;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 执行select操作</span></div><div class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">query</span><span class="params">(Connection con, String sql, MyResultSetHandler&lt;T&gt; mrs,</span></span></div><div class="line">			Object... params) <span class="keyword">throws</span> SQLException &#123;</div><div class="line"></div><div class="line">		PreparedStatement pst = con.prepareStatement(sql); <span class="comment">// 得到一个预处理的Statement.</span></div><div class="line">		<span class="comment">// 问题:sql语句中可能存在参数，需要对参数赋值。</span></div><div class="line"></div><div class="line">		ParameterMetaData pmd = pst.getParameterMetaData();</div><div class="line">		<span class="comment">// 可以得到有几个参数</span></div><div class="line">		<span class="keyword">int</span> count = pmd.getParameterCount();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= count; i++) &#123;</div><div class="line">			pst.setObject(i, params[i - <span class="number">1</span>]);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		ResultSet rs = pst.executeQuery(); <span class="comment">// 得到了结果集，要将结果集封装成用户想要的对象，但是，工具不可能知道用户需求。</span></div><div class="line"></div><div class="line">		<span class="keyword">return</span> mrs.handle(rs);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 执行update操作</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Connection con, String sql, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">		PreparedStatement pst = con.prepareStatement(sql); <span class="comment">// 得到一个预处理的Statement.</span></div><div class="line">		<span class="comment">// 问题:sql语句中可能存在参数，需要对参数赋值。</span></div><div class="line"></div><div class="line">		ParameterMetaData pmd = pst.getParameterMetaData();</div><div class="line">		<span class="comment">// 可以得到有几个参数</span></div><div class="line">		<span class="keyword">int</span> count = pmd.getParameterCount();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= count; i++) &#123;</div><div class="line">			pst.setObject(i, params[i - <span class="number">1</span>]);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> row = pst.executeUpdate();</div><div class="line">		<span class="comment">// 关闭资源</span></div><div class="line">		pst.close();</div><div class="line">		<span class="keyword">return</span> row;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(String sql, Object... params)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">		Connection con = ds.getConnection();</div><div class="line">		PreparedStatement pst = con.prepareStatement(sql); <span class="comment">// 得到一个预处理的Statement.</span></div><div class="line">		<span class="comment">// 问题:sql语句中可能存在参数，需要对参数赋值。</span></div><div class="line"></div><div class="line">		ParameterMetaData pmd = pst.getParameterMetaData();</div><div class="line">		<span class="comment">// 可以得到有几个参数</span></div><div class="line">		<span class="keyword">int</span> count = pmd.getParameterCount();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= count; i++) &#123;</div><div class="line">			pst.setObject(i, params[i - <span class="number">1</span>]);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> row = pst.executeUpdate();</div><div class="line">		<span class="comment">// 关闭资源</span></div><div class="line">		pst.close();</div><div class="line">		con.close();</div><div class="line">		<span class="keyword">return</span> row;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="ResulSetHandler九个实现类介绍"><a href="#ResulSetHandler九个实现类介绍" class="headerlink" title="ResulSetHandler九个实现类介绍"></a>ResulSetHandler九个实现类介绍</h2><p><code>ArrayHandler</code>, 将结果集中<code>第一条</code>记录封装到Object[],数组中的每一个元素就是记录中的字段值。<br><code>ArrayListHandler</code>, 将结果集中<code>每一条</code>记录封装到Object[],数组中的每一个元素就是记录中的字段值。在将这些数组装入到List集合</p>
+<p><code>BeanHandler</code>（重点）, 将结果集中<code>第一条</code>记录封装到一个<code>javaBean</code>中。<br><code>BeanListHandler</code>(重点), 将结果集中<code>每一条</code>记录封装到<code>javaBean</code>中，在将javaBean封装到<code>List集合</code>.</p>
+<p><code>ColumnListHandler</code>, 将结果集中指定列的值封装到<code>List集合</code>.(无参默认第一列)</p>
+<p><code>MapHandler</code>, 将结果集中<code>第一条</code>记录封装到<code>Map集合</code>中，集合的key就是字段名称，value就是字段值<br><code>MapListHandler</code>, 将结果集中<code>每一条</code>记录封装到<code>Map集合</code>中，集合的key就是字段名称，value就是字段值，再将这些Map封装到<code>List集合</code></p>
+<p><code>KeyedHandler</code>,在使用<code>指定的列的值</code>做为一个<code>Map集合的key</code>,值为每一条记录的Map集合封装。<br><code>ScalarHandler</code> 进行单值查询 <code>select count(*) from account;</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/04/事务与连接池/" rel="next" title="事务与连接池">
+                <i class="fa fa-chevron-left"></i> 事务与连接池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/05/Mybatis/" rel="prev" title="MyBatis">
+                MyBatis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/05/dbutils/"
+     data-title="dbutils"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/02/05/dbutils/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/05/dbutils/"
+           data-title="dbutils" data-url="https://patrickphang.github.io/2017/02/05/dbutils/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#元数据"><span class="nav-number">1.</span> <span class="nav-text">元数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dbutils工具"><span class="nav-number">2.</span> <span class="nav-text">dbutils工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模仿QueryRunner实现"><span class="nav-number">2.1.</span> <span class="nav-text">模仿QueryRunner实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResulSetHandler九个实现类介绍"><span class="nav-number">2.2.</span> <span class="nav-text">ResulSetHandler九个实现类介绍</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

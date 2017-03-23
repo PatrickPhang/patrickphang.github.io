@@ -1,0 +1,1147 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="事务事务就是一个事情，组成这个事情可能有多个单元，要求这些单元，要么全都成功，要么全都不成功。在开发中，有事务的存在，可以保证数据完整性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事务与连接池">
+<meta property="og:url" content="https://patrickphang.github.io/2017/02/04/事务与连接池/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="事务事务就是一个事情，组成这个事情可能有多个单元，要求这些单元，要么全都成功，要么全都不成功。在开发中，有事务的存在，可以保证数据完整性。">
+<meta property="og:updated_time" content="2017-03-19T07:09:43.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事务与连接池">
+<meta name="twitter:description" content="事务事务就是一个事情，组成这个事情可能有多个单元，要求这些单元，要么全都成功，要么全都不成功。在开发中，有事务的存在，可以保证数据完整性。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/02/04/事务与连接池/"/>
+
+
+
+
+
+  <title> 事务与连接池 | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/02/04/事务与连接池/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                事务与连接池
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T16:59:11+08:00">
+                2017-02-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/04/事务与连接池/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/04/事务与连接池/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/04/事务与连接池/" class="leancloud_visitors" data-flag-title="事务与连接池">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>事务就是一个事情，组成这个事情可能有多个单元，要求这些单元，要么全都成功，要么全都不成功。<br>在开发中，有事务的存在，可以保证数据完整性。</p>
+<a id="more"></a> 
+<h2 id="事务的操作"><a href="#事务的操作" class="headerlink" title="事务的操作"></a>事务的操作</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">account</span>(</div><div class="line">   <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span> auto_increment,</div><div class="line">   <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>),</div><div class="line">   money <span class="keyword">double</span></div><div class="line">);</div><div class="line"></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">account</span> <span class="keyword">values</span>(<span class="literal">null</span>,<span class="string">'aaa'</span>,<span class="number">1000</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">account</span> <span class="keyword">values</span>(<span class="literal">null</span>,<span class="string">'bbb'</span>,<span class="number">1000</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">account</span> <span class="keyword">values</span>(<span class="literal">null</span>,<span class="string">'ccc'</span>,<span class="number">1000</span>);</div></pre></td></tr></table></figure>
+<ol>
+<li><p>mysql下怎样操作<br>方式1:<br><code>start transaction</code> 开启事务<br><code>rollback</code> 事务回滚(回滚到最开始位置)<br><code>commit</code> 事务提交(没有commit就不会修改数据)<br>方式2:<br><code>show variables like &#39;%commit%&#39;;</code> 可以查看当前autocommit值.在mysql数据库中它的默认值是”on”,代表自动事务(执行任何一条mysql语句都会自动提交事务).<br>测试:将autocommit的值设置为off<br> 1.set autocommit=off 关闭自动事务。<br> 2.必须手动commit才可以将事务提交。<br> 注意:mysql默认autocommit=on  oracle默认的autocommit=off;  </p>
+</li>
+<li><p>jdbc下怎样操作<br> <code>java.sql.Connection</code>接口中有几个方法是用于可以操作事务<br> 1.<code>setAutocommit(boolean flag)</code> 如果flag=false;它就相当于start transaction;<br> 2.<code>rollBack()</code> 事务回滚<br> 3.<code>commit()</code> 事务提交</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 随便抛异常版，仅限演示，开发中不这么写</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransactionTest1</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// 修改id=2这个人的money=500;</span></div><div class="line"></div><div class="line">        String sql = <span class="string">"update account set money=500 where id=2"</span>;</div><div class="line"></div><div class="line">        Connection con = JdbcUtils.getConnection();</div><div class="line">        con.setAutoCommit(<span class="keyword">false</span>); <span class="comment">//开启事务，相当于  start transaction;</span></div><div class="line"></div><div class="line">        Statement st = con.createStatement();</div><div class="line">        st.executeUpdate(sql);</div><div class="line"></div><div class="line">        <span class="comment">//事务回滚</span></div><div class="line">        <span class="comment">//con.rollback();</span></div><div class="line"></div><div class="line">        con.commit(); <span class="comment">//事务提交</span></div><div class="line">        st.close();</div><div class="line">        con.close();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 开发中应该这么写</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransactionTest2</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// 修改id=2这个人的money=500;</span></div><div class="line"></div><div class="line">        String sql = <span class="string">"update account set money=500 where id=2"</span>;</div><div class="line"></div><div class="line">        Connection con = <span class="keyword">null</span>;</div><div class="line">        Statement st = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            con = JdbcUtils.getConnection();</div><div class="line">            con.setAutoCommit(<span class="keyword">false</span>); <span class="comment">// 开启事务，相当于 start transaction;</span></div><div class="line"></div><div class="line">            st = con.createStatement();</div><div class="line">            st.executeUpdate(sql);</div><div class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="comment">// 事务回滚</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                con.rollback();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e1) &#123;</div><div class="line">                e1.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line"></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                con.commit(); <span class="comment">// 事务提交</span></div><div class="line">                st.close();</div><div class="line">                con.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="事务特性-重点"><a href="#事务特性-重点" class="headerlink" title="事务特性(重点)"></a>事务特性(重点)</h1><ol>
+<li>原子性：事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。  </li>
+<li>一致性：事务前后数据的完整性必须保持一致。  </li>
+<li>隔离性：多个用户并发访问数据库时，一个用户的事务不能被其它用户的事务所干扰，多个并发事务之间数据要相互隔离。  </li>
+<li>持久性：一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。  </li>
+</ol>
+<h2 id="如果不考虑事务的隔离性，会出现什么问题？"><a href="#如果不考虑事务的隔离性，会出现什么问题？" class="headerlink" title="如果不考虑事务的隔离性，会出现什么问题？"></a>如果不考虑事务的隔离性，会出现什么问题？</h2><ol>
+<li>脏读：一个事务读取到另一个事务的未提交数据</li>
+<li>不可重复读：两次读取的数据不一致(强调update)</li>
+<li>虚读(幻读)：两次读取的数据不一致(强调insert)</li>
+<li>丢失更新：两个事务对同一条记录进行操作，后提交的事务，将先提交的事务的修改覆盖了。<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2></li>
+<li>事务的隔离级别有哪些?<ul>
+<li>Serializable：可避免脏读、不可重复读、虚读情况的发生。（串行化）</li>
+<li>Repeatable read：可避免脏读、不可重复读情况的发生。（可重复读）不可以避免虚读</li>
+<li>Read committed：可避免脏读情况发生（读已提交）</li>
+<li>Read uncommitted：最低级别，以上情况均无法保证。(读未提交)</li>
+</ul>
+</li>
+<li><p>怎样设置事务的隔离级别?  </p>
+<p> 1.mysql中设置  </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1.查看事务隔离级别</div><div class="line">    select @@tx_isolation	查询当前事务隔离级别(默认为Repeatable read).</div><div class="line">    扩展:oracle中默认是Read committed</div><div class="line"></div><div class="line">2.mysql中怎样设置事务隔离级别</div><div class="line">    set session transaction isolation level 事务隔离级别</div></pre></td></tr></table></figure>
+<p> 2.jdbc中设置</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">使用java.sql.Connection接口中提供的方法</div><div class="line">    void setTransactionIsolation(int level) throws SQLException</div><div class="line">    参数level可以取以下值:</div><div class="line">        level - 以下 Connection 常量之一：</div><div class="line">        Connection.TRANSACTION_READ_UNCOMMITTED、</div><div class="line">        Connection.TRANSACTION_READ_COMMITTED、</div><div class="line">        Connection.TRANSACTION_REPEATABLE_READ</div><div class="line">        Connection.TRANSACTION_SERIALIZABLE。</div><div class="line">        （注意，不能使用 Connection.TRANSACTION_NONE，因为它指定了不受支持的事务。）</div></pre></td></tr></table></figure>
+</li>
+<li><p>演示</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">1.脏读</div><div class="line">    一个事务读取到另一个事务的为提交数据</div><div class="line">    设置A,B事务隔离级别为   Read uncommitted</div><div class="line"></div><div class="line">    set session transaction isolation level  read uncommitted;</div><div class="line"></div><div class="line">    1.在A事务中</div><div class="line">        start transaction;</div><div class="line">        update account set money=money-500 where name=&apos;aaa&apos;;</div><div class="line">        update account set money=money+500 where name=&apos;bbb&apos;;</div><div class="line"></div><div class="line">    2.在B事务中</div><div class="line">        start transaction;</div><div class="line">        select * from account;</div><div class="line"></div><div class="line">    这时，B事务读取时，会发现，钱已经汇完。那么就出现了脏读。</div><div class="line"></div><div class="line">    当A事务提交前，执行rollback，在commit， B事务在查询，就会发现，钱恢复成原样</div><div class="line">    也出现了两次查询结果不一致问题，出现了不可重复读.</div><div class="line"></div><div class="line">2.解决脏读问题</div><div class="line">    将事务的隔离级别设置为 read committed来解决脏读</div><div class="line"></div><div class="line">    设置A,B事务隔离级别为   Read committed</div><div class="line"></div><div class="line">    set session transaction isolation level  read committed;</div><div class="line"></div><div class="line">    1.在A事务中</div><div class="line">        start transaction;</div><div class="line">        update account set money=money-500 where name=&apos;aaa&apos;;</div><div class="line">        update account set money=money+500 where name=&apos;bbb&apos;;</div><div class="line"></div><div class="line">    2.在B事务中</div><div class="line">        start transaction;</div><div class="line">        select * from account;</div><div class="line"></div><div class="line">    这时B事务中，读取信息时，是不能读到A事务未提交的数据的，也就解决了脏读。</div><div class="line"></div><div class="line">    让A事务，提交数据 commit;</div><div class="line"></div><div class="line">    这时，在查询，这次结果与上一次查询结果又不一样了，还存在不可重复读。</div><div class="line"></div><div class="line">3.解决不可重复读</div><div class="line">    将事务的隔离级别设置为Repeatable read来解决不可重复读。</div><div class="line">    设置A,B事务隔离级别为   Repeatable read;</div><div class="line">    set session transaction isolation level  Repeatable read;</div><div class="line"></div><div class="line">    1.在A事务中</div><div class="line">            start transaction;</div><div class="line">            update account set money=money-500 where name=&apos;aaa&apos;;</div><div class="line">            update account set money=money+500 where name=&apos;bbb&apos;;</div><div class="line"></div><div class="line">    2.在B事务中</div><div class="line">            start transaction;</div><div class="line">            select * from account;</div><div class="line">    当A事务提交后commit;B事务在查询，与上次查询结果一致，解决了不可重复读。</div><div class="line"></div><div class="line">4.设置事务隔离级别Serializable ,它可以解决所有问题</div><div class="line">    set session transaction isolation level Serializable;</div><div class="line"></div><div class="line">    如果设置成这种隔离级别，那么会出现锁表。也就是说，一个事务在对表进行操作时，</div><div class="line">    其它事务操作不了。</div></pre></td></tr></table></figure>
+</li>
+<li><p>总结</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">脏读:一个事务读取到另一个事务为提交数据</div><div class="line">不可重复读:两次读取数据不一致(读提交数据)---update</div><div class="line">虚读:两次读取数据不一致(读提交数据)----insert</div><div class="line"></div><div class="line">事务隔离级别:</div><div class="line">    read uncommitted 什么问题也解决不了.</div><div class="line">    read committed 可以解决脏读，其它解决不了.</div><div class="line">    Repeatable read 可以解决脏读，可以解决不可重复读,不能解决虚读.</div><div class="line">    Serializable 它会锁表，可以解决所有问题.</div><div class="line"></div><div class="line">    安全性：serializable &gt; repeatable read &gt; read committed &gt; read uncommitted</div><div class="line">    性能 ：serializable &lt; repeatable read &lt; read committed &lt; read uncommitted</div><div class="line"></div><div class="line">    结论： 实际开发中，通常不会选择 serializable 和 read uncommitted ，</div><div class="line">    mysql默认隔离级别 repeatable read ，oracle默认隔离级别 read committed</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="丢失更新"><a href="#丢失更新" class="headerlink" title="丢失更新"></a>丢失更新</h1><p>多个事务对同一条记录进行了操作，后提交的事务将先提交的事务操作覆盖了。<br>解决办法：</p>
+<ol>
+<li>悲观锁：（假设丢失更新一定会发生 ） —– 利用数据库内部锁机制，管理事务<br> 提供的锁机制<br> 1.共享锁<pre><code>select * from table lock in share mode（读锁、共享锁）
+</code></pre> 2.排它锁<pre><code>select * from table for update （写锁、排它锁）
+</code></pre> update语句默认添加排它锁</li>
+<li>乐观锁：（假设丢失更新不会发生）    —– 采用程序中添加版本字段解决丢失更新问题</li>
+</ol>
+<p>解决丢失更新：在数据表添加版本字段，每次修改过记录后，版本字段都会更新，如果读取是版本字段，与修改时版本字段不一致，说明别人进行修改过数据 （重改）</p>
+<h1 id="连接池"><a href="#连接池" class="headerlink" title="连接池"></a>连接池</h1><p>就是创建一个容器，用于装入多个Connection对象，在使用连接对象时，从容器中获取一个Connection，使用完成后，在将这个Connection重新装入到容器中。这个容器就是连接池。(DataSource)也叫做数据源.<br>我们可以通过连接池获取连接对象.<br>优点:节省创建连接与释放连接 性能消耗 —- 连接池中连接起到复用的作用 ，提高程序性能</p>
+<h2 id="自定义连接池"><a href="#自定义连接池" class="headerlink" title="自定义连接池"></a>自定义连接池</h2><ol>
+<li><p>创建一个<code>MyDataSource</code>类，在这个类中创建一个<code>LinkedList&lt;Connection&gt;</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> LinkedList&lt;Connection&gt; ll;</div><div class="line">ll = <span class="keyword">new</span> LinkedList&lt;Connection&gt;();</div></pre></td></tr></table></figure>
+</li>
+<li><p>在其构造方法中初始化List集合，并向其中装入5个Connection对象</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">    Connection con = JdbcUtils.getConnection();</div><div class="line">    ll.add(con);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个<code>public Connection getConnection()</code> 从List集合中获取一个连接对象返回.</p>
+</li>
+<li><p>创建一个<code>public void readd(Connection)</code> 这个方法是将使用完成后的Connection对象重新装入到List集合中.</p>
+</li>
+</ol>
+<h2 id="代码问题"><a href="#代码问题" class="headerlink" title="代码问题"></a>代码问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">1.连接池的创建是有标准的.</div><div class="line">	在javax.sql包下定义了一个接口 DataSource			</div><div class="line">	简单说，所有的连接池必须实现javax.sql.DataSource接口，</div><div class="line"></div><div class="line">	我们的自定义连接池必须实现DataSource接口。</div><div class="line"></div><div class="line">2.我们操作时，要使用标准，怎样可以让 con.close()它不是销毁，而是将其重新装入到连接池.</div><div class="line"></div><div class="line">	要解决这个问题，其本质就是将Connection中的close()方法的行为改变。</div><div class="line"></div><div class="line">	怎样可以改变一个方法的行为(对方法功能进行增强)</div><div class="line">		1.继承</div><div class="line">		2.装饰模式</div><div class="line">			1.装饰类与被装饰类要实现同一个接口或继承同一个父类</div><div class="line">			2.在装饰类中持有一个被装饰类引用</div><div class="line">			3.对方法进行功能增强。</div><div class="line">		3.动态代理</div><div class="line">			可以对行为增强</div><div class="line">			Proxy.newProxyInstance(ClassLoacer ,Class[],InvocationHandler);</div><div class="line"></div><div class="line">	结论:Connection对象如果是从连接池中获取到的，那么它的close方法的行为已经改变了，不在是销毁，而是重新装入到连接池。</div></pre></td></tr></table></figure>
+<h2 id="方法增强"><a href="#方法增强" class="headerlink" title="方法增强"></a>方法增强</h2><ol>
+<li><p>继承增强（不好）</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Person1 p=<span class="keyword">new</span> Student1();</div><div class="line">		p.eat();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person1</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">		System.out.println(<span class="string">"吃两个馒头"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student1</span> <span class="keyword">extends</span> <span class="title">Person1</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">super</span>.eat();</div><div class="line">		System.out.println(<span class="string">"加两个鸡腿"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>装饰模式（不好）</p>
+</li>
+<li><p>动态代理</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.sql.DataSource;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDataSource</span> <span class="keyword">implements</span> <span class="title">DataSource</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> LinkedList&lt;Connection&gt; ll; <span class="comment">// 用于装Connection对象的容器。</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyDataSource</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        ll = <span class="keyword">new</span> LinkedList&lt;Connection&gt;();</div><div class="line">        <span class="comment">// 当创建MyDateSource对象时，会向ll中装入5个Connection对象。</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">            Connection con = JdbcUtils.getConnection();</div><div class="line">            ll.add(con);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (ll.isEmpty()) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">                Connection con = JdbcUtils.getConnection();</div><div class="line">                ll.add(con);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Connection con = ll.removeFirst();</div><div class="line"></div><div class="line">        Connection proxyCon = (Connection) Proxy.newProxyInstance(con.getClass().getClassLoader(), con.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</div><div class="line">                    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method,</span></span></div><div class="line">                            Object[] args) <span class="keyword">throws</span> Throwable &#123;</div><div class="line">                        <span class="keyword">if</span> (<span class="string">"close"</span>.equals(method.getName())) &#123;</div><div class="line">                            <span class="comment">// 这代表是close方法，它要做的事情是将con对象重新装入到集合中.</span></div><div class="line">                            ll.add(con);</div><div class="line">                            System.out.println(<span class="string">"重新将连接对象装入到集合中"</span>);</div><div class="line">                            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            <span class="keyword">return</span> method.invoke(con, args);<span class="comment">// 其它方法执行原来操作</span></div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">        <span class="keyword">return</span> proxyCon;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="dbcp连接池（了解）"><a href="#dbcp连接池（了解）" class="headerlink" title="dbcp连接池（了解）"></a>dbcp连接池（了解）</h1><p>导入两个jar包：<code>commons-dbcp-1.4.jar</code>和<code>commons-pool-1.5.6.jar</code></p>
+<ol>
+<li><p>手动配置(手动编码)</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">BasicDataSource bds = <span class="keyword">new</span> BasicDataSource();</div><div class="line"></div><div class="line"><span class="comment">// 需要设置连接数据库最基本四个条件</span></div><div class="line">bds.setDriverClassName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">bds.setUrl(<span class="string">"jdbc:mysql:///day18"</span>);</div><div class="line">bds.setUsername(<span class="string">"root"</span>);</div><div class="line">bds.setPassword(<span class="string">"abc"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 得到一个Connection</span></div><div class="line">Connection con = bds.getConnection();</div></pre></td></tr></table></figure>
+<p> 示例：  </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcDemo</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        BasicDataSource bds = <span class="keyword">new</span> BasicDataSource();</div><div class="line"></div><div class="line">        <span class="comment">// 需要设置连接数据库最基本四个条件</span></div><div class="line">        bds.setDriverClassName(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">        bds.setUrl(<span class="string">"jdbc:mysql:///day18"</span>);</div><div class="line">        bds.setUsername(<span class="string">"root"</span>);</div><div class="line">        bds.setPassword(<span class="string">"123"</span>);</div><div class="line"></div><div class="line">        Connection con = bds.getConnection();</div><div class="line"></div><div class="line">        ResultSet rs = con.createStatement().executeQuery(<span class="string">"select * from account"</span>);</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(rs.next())&#123;</div><div class="line">            System.out.println(rs.getInt(<span class="string">"id"</span>)+<span class="string">" "</span>+rs.getString(<span class="string">"name"</span>));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        rs.close();</div><div class="line">        con.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        JdbcDemo jd = <span class="keyword">new</span> JdbcDemo();</div><div class="line">        jd.test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>自动配置(使用配置文件)</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Properties props = <span class="keyword">new</span> Properties();</div><div class="line">FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"D:\\java1110\\workspace\\day18_2\\src\\dbcp.properties"</span>);</div><div class="line">props.load(fis);</div><div class="line"></div><div class="line">DataSource ds = BasicDataSourceFactory.createDataSource(props);</div></pre></td></tr></table></figure>
+<p> 示例：<br> <code>dbcp.properties</code></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">driverClassName=com.mysql.jdbc.Driver</div><div class="line">url=jdbc:mysql:///day18</div><div class="line">username=root</div><div class="line">password=123</div></pre></td></tr></table></figure>
+<p> <code>JdbcDemo.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.commons.dbcp2.BasicDataSource;</div><div class="line"><span class="keyword">import</span> org.apache.commons.dbcp2.BasicDataSourceFactory;</div><div class="line"><span class="keyword">import</span> java.sql.*;</div><div class="line"><span class="keyword">import</span> javax.sql.DataSource;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Properties props = <span class="keyword">new</span> Properties();</div><div class="line">        <span class="comment">// props.setProperty("driverClassName","com.mysql.jdbc.Driver");</span></div><div class="line">        <span class="comment">// props.setProperty("url","jdbc:mysql:///day18");</span></div><div class="line">        <span class="comment">// props.setProperty("username","root");</span></div><div class="line">        <span class="comment">// props.setProperty("password","123");</span></div><div class="line">        FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"D:\\code\\java\\JDBC\\src\\dbcp.properties"</span>);</div><div class="line">        props.load(fis);</div><div class="line"></div><div class="line">        DataSource ds = BasicDataSourceFactory.createDataSource(props);</div><div class="line">        Connection con = ds.getConnection();</div><div class="line"></div><div class="line">        ResultSet rs = con.createStatement().executeQuery(<span class="string">"select * from account"</span>);</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(rs.next())&#123;</div><div class="line">            System.out.println(rs.getInt(<span class="string">"id"</span>)+<span class="string">" "</span>+rs.getString(<span class="string">"name"</span>));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        rs.close();</div><div class="line">        con.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        JdbcDemo jd = <span class="keyword">new</span> JdbcDemo();</div><div class="line">        jd.test2();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="c3p0连接池（必须掌握）"><a href="#c3p0连接池（必须掌握）" class="headerlink" title="c3p0连接池（必须掌握）"></a>c3p0连接池（必须掌握）</h1><p>C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，支持JDBC3规范和JDBC2的标准扩展。目前使用它的开源项目有Hibernate，Spring等。<br>dbcp没有自动回收空闲连接的功能，c3p0有自动回收空闲连接功能，它的性能更强大。</p>
+<p>导入包：<code>c3p0-0.9.5.2.jar</code></p>
+<ol>
+<li><p>手动</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ComboPooledDataSource cpds = <span class="keyword">new</span> ComboPooledDataSource();</div><div class="line">cpds.setDriverClass(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">cpds.setJdbcUrl(<span class="string">"jdbc:mysql:///day18"</span>);</div><div class="line">cpds.setUser(<span class="string">"root"</span>);</div><div class="line">cpds.setPassword(<span class="string">"abc"</span>);</div></pre></td></tr></table></figure>
+<p> 实例：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    BasicDataSource bds = <span class="keyword">new</span> BasicDataSource();</div><div class="line"></div><div class="line">    ComboPooledDataSource cpds = <span class="keyword">new</span> ComboPooledDataSource();</div><div class="line">    cpds.setDriverClass(<span class="string">"com.mysql.jdbc.Driver"</span>);</div><div class="line">    cpds.setJdbcUrl(<span class="string">"jdbc:mysql:///day18"</span>);</div><div class="line">    cpds.setUser(<span class="string">"root"</span>);</div><div class="line">    cpds.setPassword(<span class="string">"123"</span>);</div><div class="line"></div><div class="line">    Connection con = cpds.getConnection();</div><div class="line"></div><div class="line">    ResultSet rs = con.createStatement().executeQuery(<span class="string">"select * from account"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(rs.next())&#123;</div><div class="line">        System.out.println(rs.getInt(<span class="string">"id"</span>)+<span class="string">" "</span>+rs.getString(<span class="string">"name"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    rs.close();</div><div class="line">    con.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>自动(使用配置文件)<br> c3p0的配置文件可以是properties也可以是xml.<br> c3p0的配置文件如果名称叫做 <code>c3p0.properties</code> or <code>c3p0-config.xml</code> 并且放置在classpath路径下(对于web应用就是classes目录)，那么c3p0会自动查找。<br> 注意：我们其实只需要将配置文件放置在src下就可以。</p>
+<p> 使用：<code>ComboPooledDataSource cpds = new ComboPooledDataSource();</code> 它会在指定的目录下查找指定名称的配置文件，并将其中内容加载。  </p>
+<p> <code>c3p0-config.xml</code></p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">c3p0-config</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">default-config</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span>&gt;</span>jdbc:mysql:///day18<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span>&gt;</span>root<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span>123<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">default-config</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">c3p0-config</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="tomcat内置连接池管理"><a href="#tomcat内置连接池管理" class="headerlink" title="tomcat内置连接池管理"></a>tomcat内置连接池管理</h1><p>tomcat内置连接池使用的是dbcp。</p>
+<h2 id="tomcat怎样管理连接池？（配置）"><a href="#tomcat怎样管理连接池？（配置）" class="headerlink" title="tomcat怎样管理连接池？（配置）"></a>tomcat怎样管理连接池？（配置）</h2><p>要想将一个dbcp连接池让 tomcat管理，只需要创建一个context.xml配置文件,在配置文件中配置相关信息<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"jdbc/EmployeeDB"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></div><div class="line">            <span class="attr">type</span>=<span class="string">"javax.sql.DataSource"</span> <span class="attr">username</span>=<span class="string">"root"</span> <span class="attr">password</span>=<span class="string">"abc"</span></div><div class="line">            <span class="attr">driverClassName</span>=<span class="string">"com.mysql.jdbc.Driver"</span> <span class="attr">url</span>=<span class="string">"jdbc:mysql:///day18"</span></div><div class="line">            <span class="attr">maxActive</span>=<span class="string">"8"</span> <span class="attr">maxIdle</span>=<span class="string">"4"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>问题:context.xml文件位置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1.在tomcat/conf/context.xml     这时这个连接池是给整个服务器使用的。</div><div class="line">2.在tomcat/conf/Catalina/localhost 这时这个连接池只给localhost虚拟主机使用。</div><div class="line">3.将context.xml文件放置在web应用的META-INF下（只给本项目使用，最常用）</div><div class="line">注意：如果是全局设置，那么我们需要将数据库驱动放置在tomcat/lib目录下</div></pre></td></tr></table></figure></p>
+<h2 id="怎样从tomcat中获取连接池"><a href="#怎样从tomcat中获取连接池" class="headerlink" title="怎样从tomcat中获取连接池?"></a>怎样从tomcat中获取连接池?</h2><p>我们在servlet中获取连接池对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Context context = <span class="keyword">new</span> InitialContext();</div><div class="line">Context envCtx = (Context)context.lookup(<span class="string">"java:comp/env"</span>); 固定路径</div><div class="line">DataSource datasource = (DataSource) envCtx.lookup(<span class="string">"jdbc/EmployeeDB"</span>);</div></pre></td></tr></table></figure></p>
+<p>JNDI：JNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司提供的一种标准的Java命名系统接口，JNDI提供统一的客户端API，通过不同的访问提供者接口JNDI SPI的实现，由管理者将JNDI API映射为特定的命名服务和目录系统，使得Java应用程序可以和这些命名服务和目录服务之间进行交互。目录服务是一种命名服务，在这种服务里，对象不但有名称，还有属性。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/03/JDBC/" rel="next" title="JDBC">
+                <i class="fa fa-chevron-left"></i> JDBC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/05/dbutils/" rel="prev" title="dbutils">
+                dbutils <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/04/事务与连接池/"
+     data-title="事务与连接池"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/02/04/事务与连接池/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/04/事务与连接池/"
+           data-title="事务与连接池" data-url="https://patrickphang.github.io/2017/02/04/事务与连接池/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事务"><span class="nav-number">1.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务的操作"><span class="nav-number">1.1.</span> <span class="nav-text">事务的操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务特性-重点"><span class="nav-number">2.</span> <span class="nav-text">事务特性(重点)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果不考虑事务的隔离性，会出现什么问题？"><span class="nav-number">2.1.</span> <span class="nav-text">如果不考虑事务的隔离性，会出现什么问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#丢失更新"><span class="nav-number">3.</span> <span class="nav-text">丢失更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接池"><span class="nav-number">4.</span> <span class="nav-text">连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义连接池"><span class="nav-number">4.1.</span> <span class="nav-text">自定义连接池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码问题"><span class="nav-number">4.2.</span> <span class="nav-text">代码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法增强"><span class="nav-number">4.3.</span> <span class="nav-text">方法增强</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dbcp连接池（了解）"><span class="nav-number">5.</span> <span class="nav-text">dbcp连接池（了解）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c3p0连接池（必须掌握）"><span class="nav-number">6.</span> <span class="nav-text">c3p0连接池（必须掌握）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tomcat内置连接池管理"><span class="nav-number">7.</span> <span class="nav-text">tomcat内置连接池管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat怎样管理连接池？（配置）"><span class="nav-number">7.1.</span> <span class="nav-text">tomcat怎样管理连接池？（配置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎样从tomcat中获取连接池"><span class="nav-number">7.2.</span> <span class="nav-text">怎样从tomcat中获取连接池?</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

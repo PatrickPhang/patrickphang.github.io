@@ -1,0 +1,1172 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,正则表达式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="python re模块重要函数变量:
+1. compile() 根据正则表达式字符串，创建模式的对象。  
+2. search() 在字符串中寻找模式。  
+3. match() 在字符串开始处匹配模式。  
+4. split() 根据模式的匹配项来分割字符串。  
+5. findall() 显示出字符串中模式的所有匹配项。  
+6. sub(old,new) 方法的功能是，用将所有old的匹配项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://patrickphang.github.io/2017/01/03/正则表达式/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="python re模块重要函数变量:
+1. compile() 根据正则表达式字符串，创建模式的对象。  
+2. search() 在字符串中寻找模式。  
+3. match() 在字符串开始处匹配模式。  
+4. split() 根据模式的匹配项来分割字符串。  
+5. findall() 显示出字符串中模式的所有匹配项。  
+6. sub(old,new) 方法的功能是，用将所有old的匹配项">
+<meta property="og:updated_time" content="2017-01-03T11:32:09.779Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正则表达式">
+<meta name="twitter:description" content="python re模块重要函数变量:
+1. compile() 根据正则表达式字符串，创建模式的对象。  
+2. search() 在字符串中寻找模式。  
+3. match() 在字符串开始处匹配模式。  
+4. split() 根据模式的匹配项来分割字符串。  
+5. findall() 显示出字符串中模式的所有匹配项。  
+6. sub(old,new) 方法的功能是，用将所有old的匹配项">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/01/03/正则表达式/"/>
+
+
+
+
+
+  <title> 正则表达式 | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/01/03/正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                正则表达式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-03T19:13:38+08:00">
+                2017-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/03/正则表达式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/03/正则表达式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/01/03/正则表达式/" class="leancloud_visitors" data-flag-title="正则表达式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>python re模块重要函数变量:</p>
+<pre><code>1. compile() 根据正则表达式字符串，创建模式的对象。  
+2. search() 在字符串中寻找模式。  
+3. match() 在字符串开始处匹配模式。  
+4. split() 根据模式的匹配项来分割字符串。  
+5. findall() 显示出字符串中模式的所有匹配项。  
+6. sub(old,new) 方法的功能是，用将所有old的匹配项用new替换掉。  
+7. escape() 将字符串中所有特殊正则表达式字符转义。  
+</code></pre><a id="more"></a> 
+<ol>
+<li><p><code>re.compile</code>:可以把正则表达式编译成一个正则表达式对象。可以把那些经常使用的正则表达式编译成正则表达式对象，这样可以提高一定的效率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line">text = <span class="string">"JGood is a handsome boy, he is cool, clever, and so on..."</span></div><div class="line">regex = re.compile(<span class="string">r'\w*oo\w*'</span>)</div><div class="line"><span class="keyword">print</span> regex.findall(text)   <span class="comment">#查找所有包含'oo'的单词</span></div><div class="line"><span class="keyword">print</span> regex.sub(<span class="keyword">lambda</span> m: <span class="string">'['</span> + m.group(<span class="number">0</span>) + <span class="string">']'</span>, text) <span class="comment">#将字符串中含有'oo'的单词用[]括起来。</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>re.split()</code>:会根据模式的匹配项来分割字符串，类似于我们字符串的split方法，不过它是用完整的正则表达式来替代了固定的分隔符。<br><code>re.split(r&#39;\s+&#39;, text)</code>将字符串按空格分割成一个单词列表。</p>
+</li>
+<li><p><code>re.findall</code>:可以获取字符串中所有匹配的字符串。<br><code>re.findall(r&#39;\w*oo\w*&#39;, text)</code>获取字符串中，包含’oo’的所有单词。</p>
+</li>
+<li><p><code>re.sub()</code>用于替换字符串中的匹配项。<br>下面一个例子将字符串中的空格 ‘ ‘ 替换成 ‘-‘ :  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line">text = <span class="string">"JGood is a handsome boy, he is cool, clever, and so on..."</span></div><div class="line"><span class="keyword">print</span> re.sub(<span class="string">r'\s+'</span>, <span class="string">'-'</span>, text)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>re.sub的函数原型为：re.sub(pattern, repl, string, count)<br>其中第二个函数是替换后的字符串；本例中为’-‘<br>第四个参数指替换个数。默认为0，表示每个匹配项都替换。<br>re.sub还允许使用函数对匹配项的替换进行复杂的处理。<br>如：<code>re.sub(r&#39;\s&#39;, lambda m: &#39;[&#39; + m.group(0) + &#39;]&#39;, text, 0)</code>将字符串中的空格’ ‘替换为’[ ]’。</p>
+<ol>
+<li><code>re.match()</code>:尝试从字符串的开始匹配一个模式，如：下面的例子匹配第一个单词<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line">text = <span class="string">"JGood is a handsome boy, he is cool, clever, and so on..."</span></div><div class="line">m = re.match(<span class="string">r"(\w+)\s"</span>, text)</div><div class="line"><span class="keyword">if</span> m:</div><div class="line"><span class="keyword">print</span> m.group(<span class="number">0</span>), <span class="string">'\n'</span>, m.group(<span class="number">1</span>)</div><div class="line"><span class="keyword">else</span>:</div><div class="line"><span class="keyword">print</span> <span class="string">'not match'</span>```  </div><div class="line">re.match的函数原型为：re.match(pattern, string, flags)</div><div class="line">第一个参数是正则表达式，这里为<span class="string">"(\w+)\s"</span>，如果匹配成功，则返回一个Match，否则返回一个<span class="keyword">None</span>；</div><div class="line">第二个参数表示要匹配的字符串；</div><div class="line">第三个参数是标致位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。</div><div class="line"></div><div class="line"><span class="number">5.</span> `re.search()`:会在字符串内查找模式匹配,只到找到第一个匹配然后返回，若字符串无匹配，则返回<span class="keyword">None</span>。  </div><div class="line">`re.search()`的函数原型为:`re.search(pattern, string, flags)`.每个参数的含意与re.match一样。</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>import re<br>text = “JGood is a handsome boy, he is cool, clever, and so on…”<br>m = re.search(r’\shan(ds)ome\s’, text)<br>if m:<br>print m.group(0), m.group(1)<br>else:<br>print ‘not search’ ```</p>
+<p>re.match与re.search的区别：re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配。</p>
+<hr>
+<pre><code>1. (\b)代表着单词的开头或结尾，也就是单词的分界处
+2. (.)匹配除了换行符以外的任意字符
+3. (*)代表的不是字符，不是位置，而是数量。它指定*前边的内容可连续重复使用任意次以使整个表达式得到匹配  
+4. 为了避免重复，可以这样写：0\d{2}-\d{8}。这里\d后面的{2}({8})的意思是前面\d必须连续重复匹配2次(8次)
+5. (\s)匹配任意的空白符，包括空格，制表符(Tab)，换行符，中文全角空格等
+6. (\w)匹配字母或数字或下划线或汉字等
+</code></pre><hr>
+<pre><code>表1.常用的元字符
+代码    说明
+.    匹配除换行符以外的任意字符
+\w    匹配字母或数字或下划线或汉字
+\s    匹配任意的空白符
+\d    匹配数字
+\b    匹配单词的开始或结束
+^    匹配字符串的开始
+$    匹配字符串的结束
+|   或指明一个非贪婪限定符
+\   将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符  
+()  标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。  
+[   标记一个中括号表达式的开始  
+{   标记限定符表达式的开始    
+</code></pre><hr>
+<pre><code>表2.常用的限定符
+代码/语法          说明
+*             重复零次或更多次
++             重复一次或更多次
+?             重复零次或一次,或指明一个非贪婪限定符
+{n}             重复n次
+{n,}         重复n次或更多次
+{m,n}         重复m到n次
+</code></pre><p>字符转义：使用\来取消这些字符的特殊意义。</p>
+<p>字符类：要想查找数字，字母或数字，空白是很简单的，因为已经有了对应这些字符集合的元字符，但是如果你想匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),应该怎么办？<br>很简单，你只需要在方括号里列出它们就行了，像[aeiou]就匹配任何一个英文元音字母，[.?!]匹配标点符号(.或?或!)。<br>我们也可以轻松地指定一个字符范围，像[0-9]代表的含意与\d就是完全一致的：一位数字；同理[a-z0-9A-Z_]也完全等同于\w（如果只考虑英文的话）。  </p>
+<p>分枝条件:用|把不同的规则分隔开。</p>
+<p>分组：如果想要重复多个字符又该怎么办？你可以用小括号来指定子表达式(也叫做分组)。</p>
+<pre><code>表3.常用的反义代码
+代码/语法    说明
+\W        匹配任意不是字母，数字，下划线，汉字的字符
+\S        匹配任意不是空白符的字符
+\D        匹配任意非数字的字符
+\B        匹配不是单词开头或结束的位置
+[^x]        匹配除了x以外的任意字符
+[^aeiou]    匹配除了aeiou这几个字母以外的任意字符
+</code></pre><hr>
+<p>后向引用：用于重复搜索前面某个分组匹配的文本。<br>例如，\1代表分组1匹配的文本。<br>\b(\w+)\b\s+\1\b可以用来匹配重复的单词，像go go, 或者kitty kitty。<br>你也可以自己指定子表达式的组名。<br>要指定一个子表达式的组名，请使用这样的语法：(?<word>\w+)(或者把尖括号换成’也行：(?’Word’\w+)),这样就把\w+的组名指定为Word了。<br>要反向引用这个分组捕获的内容，你可以使用\k<word>,所以上一个例子也可以写成这样：\b(?<word>\w+)\b\s+\k<word>\b。</word></word></word></word></p>
+<hr>
+<pre><code>表4.常用分组语法
+分类        代码/语法    说明
+捕获        (exp)        匹配exp,并捕获文本到自动命名的组里
+        (?&lt;name&gt;exp)    匹配exp,并捕获文本到名称为name的组里，也可以写成(?&apos;name&apos;exp)
+        (?:exp)        匹配exp,不捕获匹配的文本，也不给此分组分配组号
+零宽断言    (?=exp)        匹配exp前面的位置
+        (?&lt;=exp)    匹配exp后面的位置
+        (?!exp)        匹配后面跟的不是exp的位置
+        (?&lt;!exp)    匹配前面不是exp的位置
+注释        (?#comment)    这种类型的分组不对正则表达式的处理产生任何影响，用于提供注释让人阅读
+</code></pre><p>零宽断言：用于查找在某些内容(但并不包括这些内容)之前或之后的东西。<br>(?=exp)也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，如查找I’m singing while you’re dancing.时，它会匹配sing和danc。<br>(?&lt;=exp)也叫零宽度正回顾后发断言，它断言自身出现的位置的前面能匹配表达式exp。比如(?&lt;=\bre)\w+\b会匹配以re开头的单词的后半部分(除了re以外的部分)，例如在查找reading a book时，它匹配ading。  </p>
+<p>负向零宽断言：只是想要确保某个字符没有出现，但并不想去匹配它时。<br>零宽度负预测先行断言(?!exp)，断言此位置的后面不能匹配表达式exp。例如：\d{3}(?!\d)匹配三位数字，而且这三位数字的后面不能是数字；\b((?!abc)\w)+\b匹配不包含连续字符串abc的单词。<br>同理，我们可以用(?&lt;!exp),零宽度负回顾后发断言来断言此位置的前面不能匹配表达式exp：(?&lt;![a-z])\d{7}匹配前面不是小写字母的七位数字。  </p>
+<p>注释:(?#comment)</p>
+<hr>
+<p>贪婪与懒惰:<br>贪婪匹配:匹配尽可能多的字符。<br>懒惰匹配:匹配尽可能少的字符。用法：前面给出的限定符都可以被转化为懒惰匹配模式，只要在它后面加上一个问号?。<br><code>a.*?b</code>匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）和ab（第四到第五个字符）。<br>为什么第一个匹配是aab（第一到第三个字符）而不是ab（第二到第三个字符）？简单地说，因为正则表达式有另一条规则，比懒惰／贪婪规则的优先级更高：最先开始的匹配拥有最高的优先权——The match that begins earliest wins。  </p>
+<pre><code>表5.懒惰限定符
+代码/语法    说明
+*?    重复任意次，但尽可能少重复
++?    重复1次或更多次，但尽可能少重复
+??    重复0次或1次，但尽可能少重复
+{n,m}?    重复n到m次，但尽可能少重复
+{n,}?    重复n次以上，但尽可能少重复
+
+表6.常用的处理选项
+名称    说明
+IgnoreCase(忽略大小写)    匹配时不区分大小写。
+Multiline(多行模式)    更改^和$的含义，使它们分别在任意一行的行首和行尾匹配，而不仅仅在整个字符串的开头和结尾匹配。(在此模式下,$的精确含意是:匹配\n之前的位置以及字符串结束前的位置.)
+Singleline(单行模式)    更改.的含义，使它与每一个字符匹配（包括换行符\n）。
+IgnorePatternWhitespace(忽略空白)    忽略表达式中的非转义空白并启用由#标记的注释。
+ExplicitCapture(显式捕获)    仅捕获已被显式命名的组。
+</code></pre><hr>
+<pre><code>表7.尚未详细讨论的语法
+代码/语法    说明
+\a    报警字符(打印它的效果是电脑嘀一声)
+\b    通常是单词分界位置，但如果在字符类里使用代表退格
+\t    制表符，Tab
+\r    回车
+\v    竖向制表符
+\f    换页符
+\n    换行符
+\e    Escape
+\0nn    ASCII代码中八进制代码为nn的字符
+\xnn    ASCII代码中十六进制代码为nn的字符
+\unnnn    Unicode代码中十六进制代码为nnnn的字符
+\cN    ASCII控制字符。比如\cC代表Ctrl+C
+\A    字符串开头(类似^，但不受处理多行选项的影响)
+\Z    字符串结尾或行尾(不受处理多行选项的影响)
+\z    字符串结尾(类似$，但不受处理多行选项的影响)
+\G    当前搜索的开头
+\p{name}    Unicode中命名为name的字符类，例如\p{IsGreek}
+(?&gt;exp)    贪婪子表达式
+(?&lt;x&gt;-&lt;y&gt;exp)    平衡组
+(?im-nsx:exp)    在子表达式exp中改变处理选项
+(?im-nsx)    为表达式后面的部分改变处理选项
+(?(exp)yes|no)    把exp当作零宽正向先行断言，如果在这个位置能匹配，使用yes作为此组的表达式；否则使用no
+(?(exp)yes)    同上，只是使用空表达式作为no
+(?(name)yes|no)    如果命名为name的组捕获到了内容，使用yes作为表达式；否则使用no
+(?(name)yes)    同上，只是使用空表达式作为no
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/03/使用codecs模块解决文件编码问题/" rel="next" title="使用codecs模块解决文件编码问题">
+                <i class="fa fa-chevron-left"></i> 使用codecs模块解决文件编码问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/03/创建Python虚拟环境/" rel="prev" title="创建Python虚拟环境">
+                创建Python虚拟环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/01/03/正则表达式/"
+     data-title="正则表达式"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/01/03/正则表达式/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/03/正则表达式/"
+           data-title="正则表达式" data-url="https://patrickphang.github.io/2017/01/03/正则表达式/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

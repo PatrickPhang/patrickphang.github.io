@@ -1,0 +1,1056 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#coding=utf-8 #防止报错：UnicodeEncodeError: ‘gbk’ codec can’t encode characterfrom pyquery import PyQuery as pqfrom lxml import etree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pyquery库的使用">
+<meta property="og:url" content="https://patrickphang.github.io/2017/01/03/pyquery库的使用/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="#coding=utf-8 #防止报错：UnicodeEncodeError: ‘gbk’ codec can’t encode characterfrom pyquery import PyQuery as pqfrom lxml import etree">
+<meta property="og:updated_time" content="2017-01-03T11:32:31.699Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pyquery库的使用">
+<meta name="twitter:description" content="#coding=utf-8 #防止报错：UnicodeEncodeError: ‘gbk’ codec can’t encode characterfrom pyquery import PyQuery as pqfrom lxml import etree">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/01/03/pyquery库的使用/"/>
+
+
+
+
+
+  <title> pyquery库的使用 | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/01/03/pyquery库的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pyquery库的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-03T19:19:53+08:00">
+                2017-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/03/pyquery库的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/03/pyquery库的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/01/03/pyquery库的使用/" class="leancloud_visitors" data-flag-title="pyquery库的使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>#coding=utf-8</code> #防止报错：UnicodeEncodeError: ‘gbk’ codec can’t encode character<br><code>from pyquery import PyQuery as pq</code><br><code>from lxml import etree</code><br><a id="more"></a> </p>
+<h4 id="可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml-etree："><a href="#可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml-etree：" class="headerlink" title="可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml.etree："></a>可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml.etree：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">htmlblock = <span class="string">"&lt;html&gt;&lt;title&gt;hello&lt;/title&gt;&lt;/html&gt;"</span></div><div class="line">filename = <span class="string">"path_to_html_file"</span></div><div class="line">url = <span class="string">"http://www.baidu.com"</span></div><div class="line"></div><div class="line">d = pq(htmlblock)</div><div class="line">d = pq(filename)</div><div class="line">d = pq(url)</div><div class="line">d = pq(etree.fromstring(<span class="string">"&lt;html&gt;&lt;/html&gt;"</span>))</div></pre></td></tr></table></figure>
+<p>直接输出截取串的html对象，看着更加直观  </p>
+<pre><code>v_source = pq(url=&apos;http://yunvs.com/list/mai_1.html&apos;)
+for data in v_source(&apos;tr&apos;):
+    print(pq(data).html())
+    print(pq(data).text()) #以text文本的方式输出，这样就去掉了html标记
+</code></pre><h4 id="pq-d-‘a-class-“”-’-attr-‘’"><a href="#pq-d-‘a-class-“”-’-attr-‘’" class="headerlink" title="pq(d)(‘a[class= “”]’).attr(‘’)"></a>pq(d)(‘a[class= “”]’).attr(‘’)</h4><p><code>Aurl= pq(data)(&#39;a[class= &quot;j_th_tit &quot; ]&#39;).attr(&#39;href&#39;)</code></p>
+<hr>
+<hr>
+<hr>
+<h2 id="常用方法："><a href="#常用方法：" class="headerlink" title="常用方法："></a>常用方法：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#1.html()和text() ——获取相应的HTML块或文本块</span></div><div class="line">d = pq(<span class="string">"&lt;head&gt;&lt;title&gt;hello&lt;/title&gt;&lt;/head&gt;"</span>)</div><div class="line">d(<span class="string">'head'</span>).html()    <span class="comment">#返回&lt;title&gt;hello&lt;/title&gt;</span></div><div class="line">d(<span class="string">'head'</span>).text()    <span class="comment">#返回hello</span></div><div class="line"></div><div class="line"><span class="comment">#2.根据HTML标签获取元素。注意：当获取到的元素不只一个时，html()、text()方法只返回首个元素的相应内容块</span></div><div class="line">d = pq(<span class="string">'&lt;div&gt;&lt;p&gt;test 1&lt;/p&gt;&lt;p&gt;test 2&lt;/p&gt;&lt;/div&gt;'</span>)</div><div class="line">print(d(<span class="string">'p'</span>))           <span class="comment">#返回&lt;p&gt;test 1&lt;/p&gt;&lt;p&gt;test 2&lt;/p&gt;</span></div><div class="line">print(d(<span class="string">'p'</span>).html())    <span class="comment">#返回test 1</span></div><div class="line"></div><div class="line"><span class="comment">#3.eq(index) ——根据给定的索引号得到指定元素。接上例，若想得到第二个p标签内的内容，则可以：</span></div><div class="line">print(d(<span class="string">'p'</span>).eq(<span class="number">1</span>).html()) <span class="comment">#返回test 2</span></div><div class="line"></div><div class="line"><span class="comment">#4.filter() ——根据类名、id名得到指定元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;div&gt;&lt;p id='1'&gt;test 1&lt;/p&gt;&lt;p class='2'&gt;test 2&lt;/p&gt;&lt;/div&gt;"</span>)</div><div class="line">d(<span class="string">'p'</span>).filter(<span class="string">'#1'</span>) <span class="comment">#返回[&lt;p#1&gt;]</span></div><div class="line">d(<span class="string">'p'</span>).filter(<span class="string">'.2'</span>) <span class="comment">#返回[&lt;p.2&gt;]</span></div><div class="line"></div><div class="line"><span class="comment">#5.find() ——查找嵌套元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;div&gt;&lt;p id='1'&gt;test 1&lt;/p&gt;&lt;p class='2'&gt;test 2&lt;/p&gt;&lt;/div&gt;"</span>)</div><div class="line">d(<span class="string">'div'</span>).find(<span class="string">'p'</span>)<span class="comment">#返回[&lt;p#1&gt;, &lt;p.2&gt;]</span></div><div class="line">d(<span class="string">'div'</span>).find(<span class="string">'p'</span>).eq(<span class="number">0</span>)<span class="comment">#返回[&lt;p#1&gt;]</span></div><div class="line"></div><div class="line"><span class="comment">#6.直接根据类名、id名获取元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;div&gt;&lt;p id='1'&gt;test 1&lt;/p&gt;&lt;p class='2'&gt;test 2&lt;/p&gt;&lt;/div&gt;"</span>)</div><div class="line">d(<span class="string">'#1'</span>).html()<span class="comment">#返回test 1</span></div><div class="line">d(<span class="string">'.2'</span>).html()<span class="comment">#返回test 2</span></div><div class="line"></div><div class="line"><span class="comment">#7.获取属性值，例：</span></div><div class="line">d = pq(<span class="string">"&lt;p id='my_id'&gt;&lt;a href='http://hello.com'&gt;hello&lt;/a&gt;&lt;/p&gt;"</span>)</div><div class="line">d(<span class="string">'a'</span>).attr(<span class="string">'href'</span>)<span class="comment">#返回http://hello.com</span></div><div class="line">d(<span class="string">'p'</span>).attr(<span class="string">'id'</span>)<span class="comment">#返回my_id</span></div><div class="line"></div><div class="line"><span class="comment">#8.修改属性值，例：</span></div><div class="line">d(<span class="string">'a'</span>).attr(<span class="string">'href'</span>, <span class="string">'http://baidu.com'</span>)把href属性修改为了baidu</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">#9.addClass(value) ——为元素添加类，例：</span></div><div class="line">d = pq(<span class="string">'&lt;div&gt;&lt;/div&gt;'</span>)</div><div class="line">d.addClass(<span class="string">'my_class'</span>)<span class="comment">#返回[&lt;div.my_class&gt;]</span></div><div class="line"></div><div class="line"><span class="comment">#10.hasClass(name) #返回判断元素是否包含给定的类，例：</span></div><div class="line">d = pq(<span class="string">"&lt;div class='my_class'&gt;&lt;/div&gt;"</span>)</div><div class="line">d.hasClass(<span class="string">'my_class'</span>)<span class="comment">#返回True</span></div><div class="line"></div><div class="line"><span class="comment">#11.children(selector=None) ——获取子元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;span&gt;&lt;p id='1'&gt;hello&lt;/p&gt;&lt;p id='2'&gt;world&lt;/p&gt;&lt;/span&gt;"</span>)</div><div class="line">d.children()<span class="comment">#返回[&lt;p#1&gt;, &lt;p#2&gt;]</span></div><div class="line">d.children(<span class="string">'#2'</span>)<span class="comment">#返回[&lt;p#2&gt;]</span></div><div class="line"></div><div class="line"><span class="comment">#12.parents(selector=None)——获取父元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;span&gt;&lt;p id='1'&gt;hello&lt;/p&gt;&lt;p id='2'&gt;world&lt;/p&gt;&lt;/span&gt;"</span>)</div><div class="line">d(<span class="string">'p'</span>).parents()            <span class="comment">#返回[&lt;span&gt;]</span></div><div class="line">d(<span class="string">'#1'</span>).parents(<span class="string">'span'</span>)     <span class="comment">#返回[&lt;span&gt;]</span></div><div class="line">d(<span class="string">'#1'</span>).parents(<span class="string">'p'</span>)        <span class="comment">#返回[]</span></div><div class="line"></div><div class="line"><span class="comment">#13.clone() ——返回一个节点的拷贝</span></div><div class="line"></div><div class="line"><span class="comment">#14.empty() ——移除节点内容</span></div><div class="line"></div><div class="line"><span class="comment">#15.nextAll(selector=None) ——返回后面全部的元素块，例：</span></div><div class="line">d = pq(<span class="string">"&lt;p id='1'&gt;hello&lt;/p&gt;&lt;p id='2'&gt;world&lt;/p&gt;&lt;img scr='' /&gt;"</span>)</div><div class="line">d(<span class="string">'p:first'</span>).nextAll()<span class="comment">#返回[&lt;p#2&gt;, &lt;img&gt;]</span></div><div class="line">d(<span class="string">'p:last'</span>).nextAll()<span class="comment">#返回[&lt;img&gt;]</span></div><div class="line"></div><div class="line"><span class="comment">#16.not_(selector) ——返回不匹配选择器的元素，例：</span></div><div class="line">d = pq(<span class="string">"&lt;p id='1'&gt;test 1&lt;/p&gt;&lt;p id='2'&gt;test 2&lt;/p&gt;"</span>)</div><div class="line">d(<span class="string">'p'</span>).not_(<span class="string">'#2'</span>)<span class="comment">#返回[&lt;p#1&gt;]</span></div></pre></td></tr></table></figure>
+<h3 id="与requests库结合使用："><a href="#与requests库结合使用：" class="headerlink" title="与requests库结合使用："></a>与requests库结合使用：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</div><div class="line"></div><div class="line">r = requests.get(<span class="string">'http://www.meipai.com/media/596371059'</span>)</div><div class="line">d = pq(r.content)</div><div class="line">print(d(<span class="string">'meta[property="og:video:url"]'</span>).attr(<span class="string">'content'</span>))</div></pre></td></tr></table></figure>
+<hr>
+<hr>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://pythonhosted.org//pyquery/api.html" target="_blank" rel="external">PyQuery 1.2.4 complete API</a><br><a href="http://www.geoinformatics.cn/lab/pyquery/" target="_blank" rel="external">pyquery: 基于python和jquery语法操作XML</a><br><a href="http://www.jianshu.com/p/036e589119d8" target="_blank" rel="external">这一年Python总结</a><br><a href="http://cuiqingcai.com/2636.html" target="_blank" rel="external">Python爬虫利器六之PyQuery的用法</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/03/BeautifulSoup库的使用/" rel="next" title="BeautifulSoup库的使用">
+                <i class="fa fa-chevron-left"></i> BeautifulSoup库的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/03/python利用百度天气api查询天气数据/" rel="prev" title="python利用百度天气api查询天气数据">
+                python利用百度天气api查询天气数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/01/03/pyquery库的使用/"
+     data-title="pyquery库的使用"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/01/03/pyquery库的使用/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/03/pyquery库的使用/"
+           data-title="pyquery库的使用" data-url="https://patrickphang.github.io/2017/01/03/pyquery库的使用/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml-etree："><span class="nav-number">1.</span> <span class="nav-text">可加载一段HTML字符串，或一个HTML文件，或是一个url地址，或lxml.etree：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pq-d-‘a-class-“”-’-attr-‘’"><span class="nav-number">2.</span> <span class="nav-text">pq(d)(‘a[class= “”]’).attr(‘’)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法："><span class="nav-number"></span> <span class="nav-text">常用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与requests库结合使用："><span class="nav-number"></span> <span class="nav-text">与requests库结合使用：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number"></span> <span class="nav-text">参考资料</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

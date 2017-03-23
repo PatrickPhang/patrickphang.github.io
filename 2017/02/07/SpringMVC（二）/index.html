@@ -1,0 +1,1153 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java, Python and Life" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="数据回显需求表单提交出现错误，重新回到表单，用户重新填写数据，刚才提交的参数在页面上回显。
+对简单类型的数据回显对商品修改数据回显：注意在进入修改页面的controller方法中和提交修改商品信息方法model.addAttribute方法设置的key一致。
+修改商品显示方法：ItemsController.java12345@RequestMapping(value=&quot;/editItems&quot;,m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC（二）">
+<meta property="og:url" content="https://patrickphang.github.io/2017/02/07/SpringMVC（二）/index.html">
+<meta property="og:site_name" content="Patrick's Blog">
+<meta property="og:description" content="数据回显需求表单提交出现错误，重新回到表单，用户重新填写数据，刚才提交的参数在页面上回显。
+对简单类型的数据回显对商品修改数据回显：注意在进入修改页面的controller方法中和提交修改商品信息方法model.addAttribute方法设置的key一致。
+修改商品显示方法：ItemsController.java12345@RequestMapping(value=&quot;/editItems&quot;,m">
+<meta property="og:image" content="http://i1.piimg.com/567571/ee0b0d2398ab9e0b.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/c5ed1081d6f3358c.jpg">
+<meta property="og:image" content="http://p1.bpimg.com/567571/dd07ad24c143fdad.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/1121094aec7e6ee8.png">
+<meta property="og:image" content="http://p1.bqimg.com/567571/b2c2de3d9ae41482.jpg">
+<meta property="og:image" content="http://i1.piimg.com/567571/a5056866c3d1742b.png">
+<meta property="og:updated_time" content="2017-03-19T07:34:45.309Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC（二）">
+<meta name="twitter:description" content="数据回显需求表单提交出现错误，重新回到表单，用户重新填写数据，刚才提交的参数在页面上回显。
+对简单类型的数据回显对商品修改数据回显：注意在进入修改页面的controller方法中和提交修改商品信息方法model.addAttribute方法设置的key一致。
+修改商品显示方法：ItemsController.java12345@RequestMapping(value=&quot;/editItems&quot;,m">
+<meta name="twitter:image" content="http://i1.piimg.com/567571/ee0b0d2398ab9e0b.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'LPQO9XHTI4',
+      apiKey: 'd92a5dbb6c543d1a0a6b4400ca628dad',
+      indexName: 'indexName',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://patrickphang.github.io/2017/02/07/SpringMVC（二）/"/>
+
+
+
+
+
+  <title> SpringMVC（二） | Patrick's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Patrick's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love Coding, Enjoy Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-users"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-havefun">
+          <a href="/havefun" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-battery-full"></i> <br />
+            
+            放松一下
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://patrickphang.github.io/2017/02/07/SpringMVC（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Phang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/casillas.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Patrick's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringMVC（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-07T20:14:15+08:00">
+                2017-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/07/SpringMVC（二）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/07/SpringMVC（二）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/07/SpringMVC（二）/" class="leancloud_visitors" data-flag-title="SpringMVC（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据回显"><a href="#数据回显" class="headerlink" title="数据回显"></a>数据回显</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>表单提交出现错误，重新回到表单，用户重新填写数据，刚才提交的参数在页面上回显。</p>
+<h2 id="对简单类型的数据回显"><a href="#对简单类型的数据回显" class="headerlink" title="对简单类型的数据回显"></a>对简单类型的数据回显</h2><p>对商品修改数据回显：<br>注意在进入修改页面的controller方法中和提交修改商品信息方法model.addAttribute方法设置的key一致。</p>
+<p>修改商品显示方法：<br><code>ItemsController.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/editItems"</span>,method=&#123;RequestMethod.GET&#125;)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItems</span><span class="params">(Model model, Integer id)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">// 将id传到页面</span></div><div class="line">    model.addAttribute(<span class="string">"id"</span>, id);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修改商品页面：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;form id=<span class="string">"itemForm"</span> action=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/editItemSubmit.action"</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"id"</span> <span class="attr">value</span>=<span class="string">"$&#123; id &#125;"</span>/&gt;</span></span></div></pre></td></tr></table></figure></p>
+<p>修改商品提交方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/editItemSubmit"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItemSubmit</span><span class="params">(Model model, Integer id)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">// 进行数据回显</span></div><div class="line">    model.addAttribute(<span class="string">"id"</span>, id);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="pojo类型数据回显"><a href="#pojo类型数据回显" class="headerlink" title="pojo类型数据回显"></a>pojo类型数据回显</h2><p>方法一：使用<code>Model.addtribute</code>方法进行数据回显<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/editItemSubmit"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItemSubmit</span><span class="params">(Model model, Integer id, ItemsCustom itemsCustom)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">// 进行数据回显</span></div><div class="line">    model.addAttribute(<span class="string">"item"</span>, itemsCustom);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>方法二：使用<code>@ModelAttribute</code>，作用于将请求pojo数据放到Model中回显到页面<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItemSubmit</span><span class="params">(Model model, Integer id, @ModelAttribute(value=<span class="string">"itemsCustom"</span>)</span> ItemsCustom itemsCustom) <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"item"</span>, itemsCustom);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在ModelAttribute方法指定的名称就是要填充Model中的key，在页面中就要通过key取数据。</p>
+<p><code>@ModelAttribute</code>将方法返回值传到页面</p>
+<h1 id="参数绑定集合类型"><a href="#参数绑定集合类型" class="headerlink" title="参数绑定集合类型"></a>参数绑定集合类型</h1><h2 id="绑定数组"><a href="#绑定数组" class="headerlink" title="绑定数组"></a>绑定数组</h2><p>需求：在商品查询列表页面，用户选择要删除的商品，批量删除商品。<br>在controller方法中如何将批量提交的数据绑定成数组类型。</p>
+<ol>
+<li><p>页面定义<br> <code>itemsList.jsp</code></p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deleteItems</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//将form的action指向删除商品的地址</span></div><div class="line">	<span class="built_in">document</span>.itemsForm.action=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/deleteItems.action"</span>;</div><div class="line">	<span class="comment">//进行form提交</span></div><div class="line">	<span class="built_in">document</span>.itemsForm.submit();</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">当前用户：$&#123;usercode &#125;  </div><div class="line"><span class="tag">&lt;<span class="name">c:if</span> <span class="attr">test</span>=<span class="string">"$&#123; usercode!=null &#125;"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123; pageContext.request.contextPath &#125;/logout.action"</span>&gt;</span>退出<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">c:if</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"itemsForm"</span> <span class="attr">action</span>=<span class="string">"$&#123; pageContext.request.contextPath &#125;/items/queryItem.action"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">查询条件：</div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">border</span>=<span class="string">1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">商品类别：</div><div class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;itemsType &#125;"</span> <span class="attr">var</span>=<span class="string">"item"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"$&#123;item.key &#125;"</span>&gt;</span>$&#123;item.value &#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"查询"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"批量删除"</span> <span class="attr">onclick</span>=<span class="string">"deleteItems()"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">商品列表：</div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">border</span>=<span class="string">1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>选择<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品名称<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>生产日期<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品描述<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>rest连接<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;itemsList &#125;"</span> <span class="attr">var</span>=<span class="string">"item"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"delete_id"</span> <span class="attr">value</span>=<span class="string">"$&#123;item.id&#125;"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;item.name &#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;item.price &#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">fmt:formatDate</span> <span class="attr">value</span>=<span class="string">"$&#123;item.createtime&#125;"</span> <span class="attr">pattern</span>=<span class="string">"yyyy-MM-dd HH:mm:ss"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;item.detail &#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/editItems.action?id=$&#123;item.id&#125;"</span>&gt;</span>修改<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/viewItems/$&#123;item.id&#125;"</span>&gt;</span>商品查看<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>controller方法定义<br> <code>ItemsController.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//删除 商品</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/deleteItems"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">deleteItems</span><span class="params">(Integer[] delete_id)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">//调用service方法删除 商品</span></div><div class="line">    <span class="comment">//....</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="绑定List"><a href="#绑定List" class="headerlink" title="绑定List"></a>绑定List<object></object></h2><p>需求：批量修改商品信息提交。<br>先进入批量修改商品页面，填写信息，点击提交。</p>
+<ol>
+<li><p>页面定义<br> <code>itemsList.jsp</code></p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>批量修改商品查询<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//修改商品提交</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateItems</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//将form的action指向删除商品的地址</span></div><div class="line">	<span class="built_in">document</span>.itemsForm.action=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/editItemsListSubmit.action"</span>;</div><div class="line">	<span class="comment">//进行form提交</span></div><div class="line">	<span class="built_in">document</span>.itemsForm.submit();</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"itemsForm"</span> <span class="attr">action</span>=<span class="string">"$&#123;pageContext.request.contextPath &#125;/items/queryItem.action"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">查询条件：</div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">border</span>=<span class="string">1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">商品类别：</div><div class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;itemsType &#125;"</span> <span class="attr">var</span>=<span class="string">"item"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"$&#123;item.key &#125;"</span>&gt;</span>$&#123;item.value &#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"查询"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"批量修改提交"</span> <span class="attr">onclick</span>=<span class="string">"updateItems()"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">商品列表：</div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">border</span>=<span class="string">1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品名称<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>生产日期<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品描述<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;itemsList &#125;"</span> <span class="attr">var</span>=<span class="string">"item"</span> <span class="attr">varStatus</span>=<span class="string">"s"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"itemsList[$&#123;s.index &#125;].name"</span> <span class="attr">value</span>=<span class="string">"$&#123;item.name &#125;"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"itemsList[$&#123;s.index &#125;].price"</span> <span class="attr">value</span>=<span class="string">"$&#123;item.price &#125;"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">fmt:formatDate</span> <span class="attr">value</span>=<span class="string">"$&#123; item.createtime&#125;"</span> <span class="attr">pattern</span>=<span class="string">"yyyy-MM-dd HH:mm:ss"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123; item.detail &#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$&#123; pageContext.request.contextPath &#125;/items/editItems.action?id=$&#123;item.id&#125;"</span>&gt;</span>修改<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>controller方法定义<br> <code>ItemsController.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//批量修改商品查询</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/editItemsList"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">editItemsList</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    System.out.println(request.getParameter(<span class="string">"id"</span>));</div><div class="line">    <span class="comment">//调用service查询商品列表</span></div><div class="line">    List&lt;ItemsCustom&gt; itemsList = itemsService.findItemsList(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">    ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView();</div><div class="line">    modelAndView.addObject(<span class="string">"itemsList"</span>, itemsList);</div><div class="line">    <span class="comment">// 指定逻辑视图名</span></div><div class="line">    modelAndView.setViewName(<span class="string">"editItemsList"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> modelAndView;</div><div class="line">&#125;</div><div class="line"><span class="comment">//批量修改商品提交</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/editItemsListSubmit"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItemsListSubmit</span><span class="params">(ItemsQueryVo itemsQueryVo)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;itemsList &#125;"</span> <span class="attr">var</span>=<span class="string">"item"</span> <span class="attr">varStatus</span>=<span class="string">"s"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"itemsList[$&#123;s.index &#125;].name"</span> <span class="attr">value</span>=<span class="string">"$&#123;item.name &#125;"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"itemsList[$&#123;s.index &#125;].price"</span> <span class="attr">value</span>=<span class="string">"$&#123;item.price &#125;"</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> 注释：<br> <code>itemsList</code>：controller方法形参包装类型中list的属性名。<br> <code>itemsList[0]</code>或<code>itemsList[1]</code>…：[]中是序号，从0开始。<br> <code>itemsList[].name</code>：name就是controller方法形参包装类型中list中pojo的属性名<br> <img src="http://i1.piimg.com/567571/ee0b0d2398ab9e0b.png" alt=""></p>
+</li>
+<li><p>在包装类型里定义一个list<br> <code>ItemsQueryVo.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemsQueryVo</span> </span>&#123;</div><div class="line">    <span class="comment">//商品信息</span></div><div class="line">    <span class="keyword">private</span> ItemsCustom itemsCustom;</div><div class="line">    <span class="comment">//定义一个list</span></div><div class="line">	<span class="keyword">private</span> List&lt;ItemsCustom&gt; itemsList;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="springmvc和struts的区别"><a href="#springmvc和struts的区别" class="headerlink" title="springmvc和struts的区别"></a>springmvc和struts的区别</h1><p>springmvc是通过方法的形参接收参数，在使用时可以以单例方式使用，建议使用单例。<br>struts是通过成员变量接收参数，在使用时必须以多例方式使用。  </p>
+<p>springmvc是基于方法开发，struts基于类开发。<br>springmvc将一个请求的Method和Handler进行关联绑定，一个method对应一个Handler。  </p>
+<p>springmvc开发以方法为单位进行开发，方法更帖进service(业务方法)。  </p>
+<p>经过实际测试，发现struts标签解析速度比较慢，建议在实际开发时使用jstl。  </p>
+<h1 id="图片上传"><a href="#图片上传" class="headerlink" title="图片上传"></a>图片上传</h1><h2 id="需求-1"><a href="#需求-1" class="headerlink" title="需求"></a>需求</h2><p>在商品修改页面，增加图片上传的功能。<br>操作流程：<br>    用户进入商品修改页面<br>    上传图片<br>    点击提交（提交的是图片和商品信息）<br>    再次进入修改页面，图片在商品修改页面展示  </p>
+<h2 id="图片存储问题"><a href="#图片存储问题" class="headerlink" title="图片存储问题"></a>图片存储问题</h2><p>切记：不要把图片上传到工程目录 ，不方便进行工程维护。<br>实际电商项目中使用专门图片服务器(http，比如apache、tomcat)。  </p>
+<p>本教程使用图片虚拟目录，通过虚拟目录 访问硬盘上存储的图片目录。  </p>
+<p>虚拟目录设置：  </p>
+<p>注意：图片目录中尽量进行目录分级存储，提高访问速度（提交i/o）。</p>
+<h2 id="配置图片上传解析器"><a href="#配置图片上传解析器" class="headerlink" title="配置图片上传解析器"></a>配置图片上传解析器</h2><p>springmvc使用<code>commons-fileupload</code>进行图片上传。commons-fileupload对应的springmvc的图片上传解析器：<code>org.springframework.web.multipart.commons.CommonsMultipartResolver</code><br><code>springmvc.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 文件上传 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"multipartResolver"</span></span></div><div class="line">    <span class="attr">class</span>=<span class="string">"org.springframework.web.multipart.commons.CommonsMultipartResolver"</span>&gt;</div><div class="line">    <span class="comment">&lt;!-- 设置上传文件的最大尺寸为5MB --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxUploadSize"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>5242880<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>加入commons-fileupload的jar包：<code>commons-fileupload-1.3.2.jar</code>和<code>commons-io-2.5.jar</code></p>
+<h2 id="编写上传图片的页面"><a href="#编写上传图片的页面" class="headerlink" title="编写上传图片的页面"></a>编写上传图片的页面</h2><p><code>editItem.jsp</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span>商品图片<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">c:if</span> <span class="attr">test</span>=<span class="string">"$&#123;itemsCustom.pic !=null&#125;"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/pic/$&#123;itemsCustom.pic&#125;"</span> <span class="attr">width</span>=<span class="string">100</span> <span class="attr">height</span>=<span class="string">100/</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">c:if</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span>  <span class="attr">name</span>=<span class="string">"pictureFile"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="编写controller方法"><a href="#编写controller方法" class="headerlink" title="编写controller方法"></a>编写controller方法</h2><p><code>ItemsController.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/editItemSubmit"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItemSubmit</span><span class="params">(Model model,Integer id,</span></span></div><div class="line">            @ModelAttribute(value=<span class="string">"itemsCustom"</span>) ItemsCustom itemsCustom,</div><div class="line">        <span class="comment">//上传图片</span></div><div class="line">        MultipartFile pictureFile</div><div class="line">        ) <span class="keyword">throws</span> Exception &#123;</div><div class="line">        <span class="comment">//进行数据回显</span></div><div class="line">    	model.addAttribute(<span class="string">"id"</span>, id);</div><div class="line"></div><div class="line">    	<span class="comment">//进行图片上传</span></div><div class="line">    	<span class="keyword">if</span>(pictureFile!=<span class="keyword">null</span> &amp;&amp; pictureFile.getOriginalFilename()!=<span class="keyword">null</span> &amp;&amp; pictureFile.getOriginalFilename().length()&gt;<span class="number">0</span>)&#123;</div><div class="line">    		<span class="comment">//图片上传成功后，将图片的地址写到数据库</span></div><div class="line">    		String filePath = <span class="string">"F:\\develop\\upload\\temp\\"</span>;</div><div class="line">    		<span class="comment">//上传文件原始名称</span></div><div class="line">    		String originalFilename = pictureFile.getOriginalFilename();</div><div class="line">    		<span class="comment">//新的图片名称</span></div><div class="line">    		String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf(<span class="string">"."</span>));</div><div class="line">    		<span class="comment">//新文件</span></div><div class="line">    		File file = <span class="keyword">new</span> java.io.File(filePath+newFileName);</div><div class="line"></div><div class="line">    		<span class="comment">//将内存中的文件写入磁盘</span></div><div class="line">    		pictureFile.transferTo(file);</div><div class="line"></div><div class="line">    		<span class="comment">//图片上传成功，将新图片地址写入数据库</span></div><div class="line">    		itemsCustom.setPic(newFileName);</div><div class="line">    	&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="json数据的交互"><a href="#json数据的交互" class="headerlink" title="json数据的交互"></a>json数据的交互</h1><h2 id="需求-2"><a href="#需求-2" class="headerlink" title="需求"></a>需求</h2><p>json数据格式是比较简单容易理解，json数据格式常用于远程接口传输，http传输json数据，非常方便页面进行提交/请求结果解析，对json数据的解析。</p>
+<h2 id="springmvc解析json加入json解析包"><a href="#springmvc解析json加入json解析包" class="headerlink" title="springmvc解析json加入json解析包"></a>springmvc解析json加入json解析包</h2><p>Springmvc默认用<code>MappingJacksonHttpMessageConverter</code>对json数据进行转换，需要加入jackson的包，如下：<br><code>jackson-core-asl-1.9.13.jar</code><br><code>jackson-mapper-asl-1.9.13.jar</code></p>
+<h2 id="在处理器适配器中注入MappingJacksonHttpMessageConverter"><a href="#在处理器适配器中注入MappingJacksonHttpMessageConverter" class="headerlink" title="在处理器适配器中注入MappingJacksonHttpMessageConverter"></a>在处理器适配器中注入MappingJacksonHttpMessageConverter</h2><p>让<code>处理器适配器</code>支持json数据解析，需要注入<code>MappingJacksonHttpMessageConverter</code>。<br><code>springmvc.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 注解适配器 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 加入 json数据的消息转换器 MappingJacksonHttpMessageConverter依赖Jackson的包 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageConverters"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">list</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">bean</span></span></div><div class="line">            <span class="attr">class</span>=<span class="string">"org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"</span>&gt;<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="RequestBody和-ResponseBody"><a href="#RequestBody和-ResponseBody" class="headerlink" title="@RequestBody和@ResponseBody"></a>@RequestBody和@ResponseBody</h2><p><code>@RequestBody</code>：将请求的json数据转成java对象<br><code>@ResponseBody</code>：将java对象转成json数据输出。<br><img src="http://i1.piimg.com/567571/c5ed1081d6f3358c.jpg" alt=""></p>
+<h2 id="请求json响应json"><a href="#请求json响应json" class="headerlink" title="请求json响应json"></a>请求json响应json</h2><p>controller方法：<br><code>JsonTest.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonTest</span> </span>&#123;</div><div class="line">    <span class="comment">//请求的json响应json，请求商品信息，商品信息用json格式，输出商品信息</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/requestJson"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">ItemsCustom <span class="title">requestJson</span><span class="params">(@RequestBody ItemsCustom itemsCustom)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    	<span class="keyword">return</span> itemsCustom;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>页面：<br><code>JsonTest.jsp</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-8"</span></span></div><div class="line">    <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span>%&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>json测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"$&#123;pageContext.request.contextPath &#125;/js/jquery-1.4.4.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="comment">//请求json响应json</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">requestJson</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    	$.ajax(&#123;</div><div class="line">    		<span class="attr">url</span>:<span class="string">"$&#123;pageContext.request.contextPath &#125;/requestJson.action"</span>,</div><div class="line">    		<span class="attr">type</span>:<span class="string">"post"</span>,</div><div class="line">    		<span class="attr">contentType</span>:<span class="string">"application/json;charset=utf-8"</span>,</div><div class="line">    		<span class="comment">//请求json数据,使用json表示商品信息</span></div><div class="line">    		data:<span class="string">'&#123;"name":"手机","price":1999&#125;'</span>,</div><div class="line">    		<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    			alert(data.name);</div><div class="line">    		&#125;</div><div class="line">    	&#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//请求key/value响应json</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">responseJson</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    	$.ajax(&#123;</div><div class="line">    		<span class="attr">url</span>:<span class="string">"$&#123;pageContext.request.contextPath &#125;/responseJson.action"</span>,</div><div class="line">    		<span class="attr">type</span>:<span class="string">"post"</span>,</div><div class="line">    		<span class="comment">//请求key/value数据</span></div><div class="line">    		data:<span class="string">"name=手机&amp;price=1999"</span>,</div><div class="line">    		<span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    			alert(data.name);</div><div class="line">    		&#125;</div><div class="line">    	&#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"请求json响应json"</span> <span class="attr">onclick</span>=<span class="string">"requestJson()"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"请求key/value响应json"</span> <span class="attr">onclick</span>=<span class="string">"responseJson()"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>测试跟踪：<br><img src="http://p1.bpimg.com/567571/dd07ad24c143fdad.png" alt=""></p>
+<h2 id="请求key-value响应json"><a href="#请求key-value响应json" class="headerlink" title="请求key/value响应json"></a>请求key/value响应json</h2><p>controller方法：<br><code>JsonTest.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonTest</span> </span>&#123;</div><div class="line">    <span class="comment">//请求key/value响应json</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/responseJson"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">ItemsCustom <span class="title">responseJson</span><span class="params">(ItemsCustom itemsCustom)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        <span class="keyword">return</span> itemsCustom;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试跟踪：<br><img src="http://i1.piimg.com/567571/1121094aec7e6ee8.png" alt=""></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>如果前端处理没有特殊要求，<code>建议使用第二种</code>，请求<code>key/value</code>，响应<code>json</code>，方便客户端解析请求结果。</p>
+<h1 id="validation校验（了解）"><a href="#validation校验（了解）" class="headerlink" title="validation校验（了解）"></a>validation校验（了解）</h1><h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><p>要在一个统一异常处理的类中要处理系统抛出的所有异常，根据异常类型来处理。</p>
+<p>统一异常处理的类是什么？</p>
+<p>前端控制器DispatcherServlet在进行HandlerMapping、调用HandlerAdapter执行Handler过程中，如果遇到异常，进行异常处理。</p>
+<p>在系统中自定义统一的异常处理器，写系统自己的异常处理代码。</p>
+<ol>
+<li><p>定义统一异常处理器类<br> 统一异常处理器实现<code>HandlerExceptionResolver</code>接口。<br> <code>CustomException.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.itcast.ssm.exception;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomException</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>&#123;</div><div class="line">	<span class="comment">//异常信息</span></div><div class="line">	<span class="keyword">private</span> String message;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">CustomException</span><span class="params">(String message)</span></span>&#123;</div><div class="line">		<span class="keyword">super</span>(message);</div><div class="line">		<span class="keyword">this</span>.message = message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.message = message;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> <code>CustomExceptionResolver.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomExceptionResolver</span> <span class="keyword">implements</span> <span class="title">HandlerExceptionResolver</span>  </span>&#123;</div><div class="line">	<span class="comment">//前端控制器DispatcherServlet在进行HandlerMapping、调用HandlerAdapter执行Handler过程中，如果遇到异常就会执行此方法</span></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> ModelAndView <span class="title">resolveException</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> </span>&#123;</div><div class="line">		<span class="comment">//输出异常</span></div><div class="line">		ex.printStackTrace();</div><div class="line">		<span class="comment">//统一异常处理代码</span></div><div class="line">		<span class="comment">//......</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置统一异常处理器<br> <code>springmvc.xml</code></p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 定义统一异常处理器 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"cn.itcast.ssm.exception.CustomExceptionResolver"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>异常处理逻辑<br>根据不同的异常类型进行异常处理。</p>
+</li>
+</ol>
+<p>系统自定义的异常类是<code>CustomException</code> ，在<code>controller</code>方法中、<code>service</code>方法中手动抛出此类异常。</p>
+<p>针对系统自定义的<code>CustomException</code>异常，就可以直接从异常类中获取异常信息，将异常处理在错误页面展示。<br>针对<code>非CustomException</code>异常，对这类重新构造成一个<code>CustomException</code>，异常信息为“未知错误”，此类错误需要在系统测试阶段去排除。</p>
+<p>在统一异常处理器CustomExceptionResolver中实现上边的逻辑。<br>    <code>CustomExceptionResolver.java</code><br>    <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomExceptionResolver</span> <span class="keyword">implements</span> <span class="title">HandlerExceptionResolver</span>  </span>&#123;</div><div class="line">	<span class="comment">//前端控制器DispatcherServlet在进行HandlerMapping、调用HandlerAdapter执行Handler过程中，如果遇到异常就会执行此方法</span></div><div class="line">	<span class="comment">//handler最终要执行的Handler，它的真实身份是HandlerMethod</span></div><div class="line">	<span class="comment">//Exception ex就是接收到异常信息</span></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> ModelAndView <span class="title">resolveException</span><span class="params">(HttpServletRequest request,</span></span></div><div class="line">			HttpServletResponse response, Object handler, Exception ex) &#123;</div><div class="line">		<span class="comment">//输出异常</span></div><div class="line">		ex.printStackTrace();</div><div class="line"></div><div class="line">		<span class="comment">//统一异常处理代码</span></div><div class="line">		<span class="comment">// 1.针对系统自定义的CustomException异常，就可以直接从异常类中获取异常信息，将异常处理在错误页面展示</span></div><div class="line">		<span class="comment">//异常信息</span></div><div class="line">		String message = <span class="keyword">null</span>;</div><div class="line">		CustomException customException = <span class="keyword">null</span>;</div><div class="line">		<span class="comment">//如果ex是系统自定义的异常，直接取出异常信息</span></div><div class="line">		<span class="keyword">if</span>(ex <span class="keyword">instanceof</span> CustomException)&#123;</div><div class="line">			customException = (CustomException)ex;</div><div class="line">		&#125; <span class="keyword">else</span>&#123;</div><div class="line">			<span class="comment">// 2.针对非CustomException异常，对这类重新构造成一个CustomException，异常信息为“未知错误”</span></div><div class="line">			customException = <span class="keyword">new</span> CustomException(<span class="string">"未知错误"</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">//错误信息</span></div><div class="line">		message = customException.getMessage();</div><div class="line">		request.setAttribute(<span class="string">"message"</span>, message);</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">//转向到错误页面</span></div><div class="line">			request.getRequestDispatcher(<span class="string">"/WEB-INF/jsp/error.jsp"</span>).forward(request, response);</div><div class="line">		&#125; <span class="keyword">catch</span> (ServletException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ModelAndView();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>测试抛出异常由统一异常处理器捕获<br> 可以在controller方法、service方法、dao实现类中抛出异常，要求dao、service、controller遇到异常全部向上抛出异常，方法向上抛出异常throws Exception<br> <code>ItemsServiceImpl.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.itcast.ssm.service.impl;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemsServiceImpl</span> <span class="keyword">implements</span> <span class="title">ItemsService</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ItemsCustom <span class="title">findItemsById</span><span class="params">(<span class="keyword">int</span> id)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Items items = itemsMapper.selectByPrimaryKey(id);</div><div class="line">        <span class="comment">//如果查询的商品信息为空，抛出系统自定义的异常</span></div><div class="line">        <span class="keyword">if</span>(items==<span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> CustomException(<span class="string">"修改商品信息不存在"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//在这里随着需求的变量，需要查询商品的其它的相关信息，返回到controller</span></div><div class="line">        ItemsCustom itemsCustom = <span class="keyword">new</span> ItemsCustom();</div><div class="line">        <span class="comment">//将items的属性拷贝到itemsCustom</span></div><div class="line">        BeanUtils.copyProperties(items, itemsCustom);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> itemsCustom;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> <code>ItemsController.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//方法返回字符串，字符串就是逻辑视图名，Model作用是将数据填充到request域，在页面展示</span></div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/editItems"</span>,method=&#123;RequestMethod.GET&#125;)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editItems</span><span class="params">(Model model,Integer id)</span><span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    <span class="comment">//将id传到页面</span></div><div class="line">    model.addAttribute(<span class="string">"id"</span>, id);</div><div class="line"></div><div class="line">    <span class="comment">//调用 service查询商品信息</span></div><div class="line">    ItemsCustom itemsCustom = itemsService.findItemsById(id);</div><div class="line">    <span class="keyword">if</span>(itemsCustom == <span class="keyword">null</span>)&#123;</div><div class="line">        <span class="function"><span class="keyword">throws</span> new <span class="title">CustomException</span><span class="params">(<span class="string">"修改商品信息不存在"</span>)</span></span>;</div><div class="line">    &#125;</div><div class="line">    model.addAttribute(<span class="string">"itemsCustom"</span>, itemsCustom);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="string">"editItem"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>图解：<br><img src="http://p1.bqimg.com/567571/b2c2de3d9ae41482.jpg" alt=""></p>
+<h1 id="RESTful架构"><a href="#RESTful架构" class="headerlink" title="RESTful架构"></a>RESTful架构</h1><h2 id="什么是RESTful"><a href="#什么是RESTful" class="headerlink" title="什么是RESTful"></a>什么是RESTful</h2><p>RESTful软件开发理念，RESTful对http进行非常好的诠释。<br>RESTful即Representational State Transfer的缩写。<br>综合上面的解释，我们总结一下什么是RESTful架构：<br>（1）每一个URI代表一种资源；<br>（2）客户端和服务器之间，传递这种资源的某种表现层；<br>（3）客户端通过四个HTTP动词，对服务器端资源进行操作，实现”表现层状态转化”。  </p>
+<h2 id="url的RESTful实现"><a href="#url的RESTful实现" class="headerlink" title="url的RESTful实现"></a>url的RESTful实现</h2><p>非RESTful的http的url：<a href="http://localhost:8080/items/editItems.action?id=1&amp;" target="_blank" rel="external">http://localhost:8080/items/editItems.action?id=1&amp;</a>….</p>
+<p>RESTful的url是简洁的：http:// localhost:8080/items/editItems/1<br>参数通过url传递，rest接口返回json数据</p>
+<h2 id="需求-3"><a href="#需求-3" class="headerlink" title="需求"></a>需求</h2><p>根据<code>id</code>查看商品信息，商品信息查看的链接使用<code>RESTful</code>方式实现，商品信息以<code>json</code>返回。  </p>
+<ol>
+<li><p>更改DispatcherServlet配置<br> <code>web.xml</code></p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- restful的配置 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc_rest<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 加载springmvc配置 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 配置文件的地址 如果不配置contextConfigLocation， 默认查找的配置文件名称classpath下的：servlet名称+"-serlvet.xml"即：springmvc-serlvet.xml --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring/springmvc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc_rest<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- rest方式配置为/ --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>参数通过url传递<br> <code>ItemsController.java</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 根据商品id查看商品信息rest接口</span></div><div class="line"><span class="comment">// @RequestMapping中指定restful方式的url中的参数，参数需要用&#123;&#125;包起来</span></div><div class="line"><span class="comment">// @PathVariable将url中的&#123;&#125;包起参数和形参进行绑定</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/viewItems/&#123;id&#125;"</span>)</div><div class="line"><span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">ItemsCustom <span class="title">viewItems</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> Integer id) <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    <span class="comment">//调用 service查询商品信息</span></div><div class="line">    ItemsCustom itemsCustom = itemsService.findItemsById(id);</div><div class="line">    <span class="keyword">return</span> itemsCustom;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> <code>itemsList.jsp</code></p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;c:forEach items=<span class="string">"$&#123;itemsList &#125;"</span> <span class="keyword">var</span>=<span class="string">"item"</span>&gt;</div><div class="line">&lt;tr&gt;</div><div class="line">	&lt;td&gt;&lt;input type="checkbox" name="delete_id" value="$&#123;item.id&#125;" /&gt;&lt;/td&gt;</div><div class="line">	&lt;td&gt;$&#123; item.name &#125;&lt;/td&gt;</div><div class="line">	&lt;td&gt;$&#123; item.price &#125;&lt;/td&gt;</div><div class="line">	&lt;td&gt;&lt;fmt:formatDate value="$&#123;item.createtime&#125;" pattern="yyyy-MM-dd HH:mm:ss"/&gt;&lt;/td&gt;</div><div class="line">	&lt;td&gt;$&#123; item.detail &#125;&lt;/td&gt;</div><div class="line"></div><div class="line">	&lt;td&gt;&lt;a href="$&#123;pageContext.request.contextPath &#125;/items/editItems.action?id=$&#123;item.id&#125;"&gt;修改&lt;/a&gt;&lt;/td&gt;</div><div class="line">	&lt;td&gt;&lt;a href="$&#123;pageContext.request.contextPath &#125;/items/viewItems/$&#123;item.id&#125;"&gt;商品查看&lt;/a&gt;&lt;/td&gt;</div><div class="line">&lt;/tr&gt;</div><div class="line">&lt;/c:forEach&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置静态资源解析<br> 当DispatcherServlet拦截/开头的所有请求，对静态资源的访问就报错404，需要通过设置对静态资源进行解析.<br> <img src="http://i1.piimg.com/567571/a5056866c3d1742b.png" alt=""><br> <code>springmvc.xml</code></p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 静态资源 解析 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">mvc:resources</span> <span class="attr">location</span>=<span class="string">"/js/"</span> <span class="attr">mapping</span>=<span class="string">"/js/**"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">mvc:resources</span> <span class="attr">location</span>=<span class="string">"/img/"</span> <span class="attr">mapping</span>=<span class="string">"/img/**"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p> 访问<code>/js/**</code>的url从工程下<code>/js/</code>下解析。</p>
+</li>
+</ol>
+<h1 id="springmvc拦截器"><a href="#springmvc拦截器" class="headerlink" title="springmvc拦截器"></a>springmvc拦截器</h1><h2 id="拦截器的异常场合"><a href="#拦截器的异常场合" class="headerlink" title="拦截器的异常场合"></a>拦截器的异常场合</h2><p>用户请求到DispatherServlet中，DispatherServlet调用HandlerMapping查找Handler，HandlerMapping返回一个拦截的链儿（多个拦截），springmvc中的拦截器是通过HandlerMapping发起的。<br>在企业开发，使用拦截器实现用户认证（用户登陆后进行身份校验拦截），用户权限拦截。</p>
+<h2 id="springmvc拦截器方法"><a href="#springmvc拦截器方法" class="headerlink" title="springmvc拦截器方法"></a>springmvc拦截器方法</h2><h2 id="测试拦截器"><a href="#测试拦截器" class="headerlink" title="测试拦截器"></a>测试拦截器</h2><h2 id="拦截器应用（用户认证拦截）"><a href="#拦截器应用（用户认证拦截）" class="headerlink" title="拦截器应用（用户认证拦截）"></a>拦截器应用（用户认证拦截）</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/07/SpringMVC（一）/" rel="next" title="SpringMVC（一）">
+                <i class="fa fa-chevron-left"></i> SpringMVC（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/07/视图解析器/" rel="prev" title="视图解析器">
+                视图解析器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/07/SpringMVC（二）/"
+     data-title="SpringMVC（二）"
+     data-content=""
+     data-url="https://patrickphang.github.io/2017/02/07/SpringMVC（二）/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/07/SpringMVC（二）/"
+           data-title="SpringMVC（二）" data-url="https://patrickphang.github.io/2017/02/07/SpringMVC（二）/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/casillas.jpg"
+               alt="Patrick Phang" />
+          <p class="site-author-name" itemprop="name">Patrick Phang</p>
+           
+              <p class="site-description motion-element" itemprop="description">PatrickPhang</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/PatrickPhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PatrickYatesy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/patrickphangcoder" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/peng-xiao-ye-93/" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/62303cbb7c60" target="_blank" title="Jianshu">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  Jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://cuiqingcai.com/" title="崔庆才" target="_blank">崔庆才</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jasonsi.com" title="听你" target="_blank">听你</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://wenwenla.github.io/" title="wenwen" target="_blank">wenwen</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据回显"><span class="nav-number">1.</span> <span class="nav-text">数据回显</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对简单类型的数据回显"><span class="nav-number">1.2.</span> <span class="nav-text">对简单类型的数据回显</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pojo类型数据回显"><span class="nav-number">1.3.</span> <span class="nav-text">pojo类型数据回显</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数绑定集合类型"><span class="nav-number">2.</span> <span class="nav-text">参数绑定集合类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定数组"><span class="nav-number">2.1.</span> <span class="nav-text">绑定数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定List"><span class="nav-number">2.2.</span> <span class="nav-text">绑定List</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springmvc和struts的区别"><span class="nav-number">3.</span> <span class="nav-text">springmvc和struts的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片上传"><span class="nav-number">4.</span> <span class="nav-text">图片上传</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求-1"><span class="nav-number">4.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片存储问题"><span class="nav-number">4.2.</span> <span class="nav-text">图片存储问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置图片上传解析器"><span class="nav-number">4.3.</span> <span class="nav-text">配置图片上传解析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写上传图片的页面"><span class="nav-number">4.4.</span> <span class="nav-text">编写上传图片的页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写controller方法"><span class="nav-number">4.5.</span> <span class="nav-text">编写controller方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#json数据的交互"><span class="nav-number">5.</span> <span class="nav-text">json数据的交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求-2"><span class="nav-number">5.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#springmvc解析json加入json解析包"><span class="nav-number">5.2.</span> <span class="nav-text">springmvc解析json加入json解析包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在处理器适配器中注入MappingJacksonHttpMessageConverter"><span class="nav-number">5.3.</span> <span class="nav-text">在处理器适配器中注入MappingJacksonHttpMessageConverter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RequestBody和-ResponseBody"><span class="nav-number">5.4.</span> <span class="nav-text">@RequestBody和@ResponseBody</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求json响应json"><span class="nav-number">5.5.</span> <span class="nav-text">请求json响应json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求key-value响应json"><span class="nav-number">5.6.</span> <span class="nav-text">请求key/value响应json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.7.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#validation校验（了解）"><span class="nav-number">6.</span> <span class="nav-text">validation校验（了解）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统一异常处理"><span class="nav-number">7.</span> <span class="nav-text">统一异常处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RESTful架构"><span class="nav-number">8.</span> <span class="nav-text">RESTful架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是RESTful"><span class="nav-number">8.1.</span> <span class="nav-text">什么是RESTful</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#url的RESTful实现"><span class="nav-number">8.2.</span> <span class="nav-text">url的RESTful实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求-3"><span class="nav-number">8.3.</span> <span class="nav-text">需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springmvc拦截器"><span class="nav-number">9.</span> <span class="nav-text">springmvc拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器的异常场合"><span class="nav-number">9.1.</span> <span class="nav-text">拦截器的异常场合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#springmvc拦截器方法"><span class="nav-number">9.2.</span> <span class="nav-text">springmvc拦截器方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试拦截器"><span class="nav-number">9.3.</span> <span class="nav-text">测试拦截器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器应用（用户认证拦截）"><span class="nav-number">9.4.</span> <span class="nav-text">拦截器应用（用户认证拦截）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Phang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">总访问量 <i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">访客数 <i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"patrickphang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iXNIEVsQbfiNCzOb5lLfN5eF-gzGzoHsz", "Qz2di39iaaqi20J0P9qoUN1f");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>
