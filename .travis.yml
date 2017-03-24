@@ -1,4 +1,5 @@
 language: node_js
+sudo: required
 node_js: stable
 install:
 - npm install
@@ -15,6 +16,9 @@ after_script:
 branches:
   only:
   - hexo
+deploy:
+on:
+  tags: true
 env:
   global:
   - GH_REF: https://github.com/PatrickPhang/patrickphang.github.io.git
