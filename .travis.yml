@@ -1,11 +1,12 @@
 language: node_js
 sudo: required
 node_js: stable
+before_install:
+  - npm install -g hexo
 install:
-  - npm install hexo-cli -g
   - npm install
 script:
-  - npm run deploy
+  - hexo generate
 after_script:
   - cd ./public
   - git init
