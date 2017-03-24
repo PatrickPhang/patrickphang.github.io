@@ -1,6 +1,7 @@
 ---
 title: Categories
 type: "categories"
+comments: false
 categories:
   - Python
   - Java
