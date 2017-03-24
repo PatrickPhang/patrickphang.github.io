@@ -1,24 +1,21 @@
 language: node_js
 node_js: stable
-# S: Build Lifecycle
 install:
-  - npm install
-#before_script:
- # - npm install -g gulp
+- npm install
 script:
-  - hexo g
+- hexo g
 after_script:
-  - cd ./public
-  - git init
-  - git config user.name "PatrickPhang"
-  - git config user.email "patrickyateschn@gmail.com"
-  - git add .
-  - git commit -m "Update docs"
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
-# E: Build LifeCycle
+- cd ./public
+- git init
+- git config user.name "PatrickPhang"
+- git config user.email "patrickyateschn@gmail.com"
+- git add .
+- git commit -m "Update docs"
+- git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 branches:
   only:
-    - hexo
+  - hexo
 env:
- global:
-   - GH_REF: https://github.com/PatrickPhang/patrickphang.github.io.git
+  global:
+  - GH_REF: https://github.com/PatrickPhang/patrickphang.github.io.git
+  - secure: pIV1sdIkITjx63VGeCzI8o4iawYg7MNbuV5WTmIVoNd1gfGspfbcvLSTjiYY/BXiqarr/t21wtTdODOZ163gF3Y7xlA7hkzByF692ivoG3eKxVzzBjLeuh0BmSyMcAs4zour+xqzDMb1lGgIjHoBe9fbNyVzxfruYi9Oxi1w7bwfODn62B4kHuB2VpmOiCtXXE1J4sup28jxVxnmpuBkREGXVVhXX2MT6y7SAwWpx3XANK/Qsnr6Ut5qZl9NIdX0iwvqf4Ia5AY9W7whAa0bpzbkdeiyNUHhM/P92wKs+qqS2uoqFm0ajYbbEWdmh86K8bqfBkF5xe1vgh5ehC27fTljDdTW51ehtNxCW7GYjZxcZdnTkHMsyR44CVrKT2e6P4QR5lz8V9qHho6j87LOfRWgD+kwUGKPAuRWUPdLBw6TxUFQwnoMjlpj+3z6pcn0EOjYMCdA7yOJv/Q7SQs4TS6Uwj9VplpE5egYRK+vpAi4zLeE+vJogsgdiu5qdKQhiYhc9Q7J8jyatfpJsG5vtrQSxdz1gFaTFb62EoxtTSxMM43zUBVplOjtZujjiWJX9oab+xAXRxTqPB864cXl+Wz+ZspkDx0kU7s8tRcyUnYMacZ/cdb6iEN4Kmiy58I1GciXju7avLd1AbTXbIdzCZPp8jaUiQkpHy0oIMcVFWQ=
