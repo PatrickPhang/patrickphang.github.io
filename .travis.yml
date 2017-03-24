@@ -17,8 +17,8 @@ branches:
   only:
   - hexo
 deploy:
-on:
-  tags: true
+  on:
+    tags: true
 env:
   global:
   - GH_REF: https://github.com/PatrickPhang/patrickphang.github.io.git
